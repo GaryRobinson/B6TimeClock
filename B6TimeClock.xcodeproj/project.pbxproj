@@ -8,12 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		B2C6E9D1220B387E000531E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6E9D0220B387E000531E6 /* AppDelegate.swift */; };
-		B2C6E9D3220B387E000531E6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6E9D2220B387E000531E6 /* ViewController.swift */; };
+		B2C6E9D3220B387E000531E6 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6E9D2220B387E000531E6 /* TodayViewController.swift */; };
 		B2C6E9D6220B387E000531E6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2C6E9D4220B387E000531E6 /* Main.storyboard */; };
 		B2C6E9D8220B387F000531E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2C6E9D7220B387F000531E6 /* Assets.xcassets */; };
 		B2C6E9DB220B387F000531E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2C6E9D9220B387F000531E6 /* LaunchScreen.storyboard */; };
 		B2C6E9E6220B387F000531E6 /* B6TimeClockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6E9E5220B387F000531E6 /* B6TimeClockTests.swift */; };
 		B2C6E9F1220B387F000531E6 /* B6TimeClockUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6E9F0220B387F000531E6 /* B6TimeClockUITests.swift */; };
+		B2C6E9FF220B5165000531E6 /* SectionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6E9FE220B5165000531E6 /* SectionHeaderCell.swift */; };
+		B2C6EA01220B51A9000531E6 /* TimeEntryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6EA00220B51A9000531E6 /* TimeEntryCell.swift */; };
+		B2C6EA03220B7B03000531E6 /* TimeEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6EA02220B7B03000531E6 /* TimeEntry.swift */; };
+		B2C6EA05220B82C6000531E6 /* TimeEntryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6EA04220B82C6000531E6 /* TimeEntryManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +40,7 @@
 /* Begin PBXFileReference section */
 		B2C6E9CD220B387E000531E6 /* B6TimeClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = B6TimeClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2C6E9D0220B387E000531E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B2C6E9D2220B387E000531E6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B2C6E9D2220B387E000531E6 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		B2C6E9D5220B387E000531E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B2C6E9D7220B387F000531E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B2C6E9DA220B387F000531E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +51,10 @@
 		B2C6E9EC220B387F000531E6 /* B6TimeClockUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = B6TimeClockUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2C6E9F0220B387F000531E6 /* B6TimeClockUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = B6TimeClockUITests.swift; sourceTree = "<group>"; };
 		B2C6E9F2220B387F000531E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B2C6E9FE220B5165000531E6 /* SectionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderCell.swift; sourceTree = "<group>"; };
+		B2C6EA00220B51A9000531E6 /* TimeEntryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEntryCell.swift; sourceTree = "<group>"; };
+		B2C6EA02220B7B03000531E6 /* TimeEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEntry.swift; sourceTree = "<group>"; };
+		B2C6EA04220B82C6000531E6 /* TimeEntryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEntryManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,8 +106,12 @@
 			isa = PBXGroup;
 			children = (
 				B2C6E9D0220B387E000531E6 /* AppDelegate.swift */,
-				B2C6E9D2220B387E000531E6 /* ViewController.swift */,
 				B2C6E9D4220B387E000531E6 /* Main.storyboard */,
+				B2C6E9D2220B387E000531E6 /* TodayViewController.swift */,
+				B2C6E9FE220B5165000531E6 /* SectionHeaderCell.swift */,
+				B2C6EA00220B51A9000531E6 /* TimeEntryCell.swift */,
+				B2C6EA02220B7B03000531E6 /* TimeEntry.swift */,
+				B2C6EA04220B82C6000531E6 /* TimeEntryManager.swift */,
 				B2C6E9D7220B387F000531E6 /* Assets.xcassets */,
 				B2C6E9D9220B387F000531E6 /* LaunchScreen.storyboard */,
 				B2C6E9DC220B387F000531E6 /* Info.plist */,
@@ -256,8 +268,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B2C6E9D3220B387E000531E6 /* ViewController.swift in Sources */,
+				B2C6EA03220B7B03000531E6 /* TimeEntry.swift in Sources */,
+				B2C6E9FF220B5165000531E6 /* SectionHeaderCell.swift in Sources */,
+				B2C6E9D3220B387E000531E6 /* TodayViewController.swift in Sources */,
 				B2C6E9D1220B387E000531E6 /* AppDelegate.swift in Sources */,
+				B2C6EA01220B51A9000531E6 /* TimeEntryCell.swift in Sources */,
+				B2C6EA05220B82C6000531E6 /* TimeEntryManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,6 +451,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8A5UZZPC8H;
 				INFOPLIST_FILE = B6TimeClock/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -442,7 +459,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = bradshawork.B6TimeClock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -453,6 +470,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8A5UZZPC8H;
 				INFOPLIST_FILE = B6TimeClock/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -460,7 +478,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = bradshawork.B6TimeClock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
