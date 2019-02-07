@@ -18,6 +18,7 @@
 		B2C6EA01220B51A9000531E6 /* TimeEntryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6EA00220B51A9000531E6 /* TimeEntryCell.swift */; };
 		B2C6EA03220B7B03000531E6 /* TimeEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6EA02220B7B03000531E6 /* TimeEntry.swift */; };
 		B2C6EA05220B82C6000531E6 /* TimeEntryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6EA04220B82C6000531E6 /* TimeEntryManager.swift */; };
+		B2C6EA07220B971E000531E6 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6EA06220B971E000531E6 /* Date.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		B2C6EA00220B51A9000531E6 /* TimeEntryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEntryCell.swift; sourceTree = "<group>"; };
 		B2C6EA02220B7B03000531E6 /* TimeEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEntry.swift; sourceTree = "<group>"; };
 		B2C6EA04220B82C6000531E6 /* TimeEntryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEntryManager.swift; sourceTree = "<group>"; };
+		B2C6EA06220B971E000531E6 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 			children = (
 				B2C6E9D0220B387E000531E6 /* AppDelegate.swift */,
 				B2C6E9D4220B387E000531E6 /* Main.storyboard */,
+				B2C6EA06220B971E000531E6 /* Date.swift */,
 				B2C6E9D2220B387E000531E6 /* TodayViewController.swift */,
 				B2C6E9FE220B5165000531E6 /* SectionHeaderCell.swift */,
 				B2C6EA00220B51A9000531E6 /* TimeEntryCell.swift */,
@@ -270,6 +273,7 @@
 			files = (
 				B2C6EA03220B7B03000531E6 /* TimeEntry.swift in Sources */,
 				B2C6E9FF220B5165000531E6 /* SectionHeaderCell.swift in Sources */,
+				B2C6EA07220B971E000531E6 /* Date.swift in Sources */,
 				B2C6E9D3220B387E000531E6 /* TodayViewController.swift in Sources */,
 				B2C6E9D1220B387E000531E6 /* AppDelegate.swift in Sources */,
 				B2C6EA01220B51A9000531E6 /* TimeEntryCell.swift in Sources */,
