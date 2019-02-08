@@ -14,13 +14,15 @@ class DayViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
     @IBOutlet weak var tableView: UITableView!
 
-    var sections: [TimeEntryType] = [.Shift, .Break, .AfterCall]
+    var sections: [TimeEntryType] = TimeEntryType.getAll()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: sectionHeaderId, bundle: nil),
                            forHeaderFooterViewReuseIdentifier: sectionHeaderId)
         tableView.tableFooterView = UIView()
+
+        TimeEntryController.shared.delegate = self
     }
 
     // MARK: - Table View
@@ -33,7 +35,7 @@ class DayViewController: UIViewController, UITableViewDataSource, UITableViewDel
         let type = sections[section]
         if let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: sectionHeaderId)
             as? SectionHeaderView {
-            headerView.configure(type: type, delegate: self)
+            headerView.configure(type: type)
             return headerView
         }
         return nil
@@ -47,13 +49,13 @@ class DayViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let type = sections[section]
-        let entries = TimeEntryManager.shared.getFor(day: Date(), type: type)
+        let entries = TimeEntryController.shared.getFor(day: Date(), type: type)
         return entries.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let type = sections[indexPath.section]
-        let entries = TimeEntryManager.shared.getFor(day: Date(), type: type)
+        let entries = TimeEntryController.shared.getFor(day: Date(), type: type)
         let entry = entries[indexPath.row]
         if let cell = tableView.dequeueReusableCell(withIdentifier: "TimeEntryCell", for: indexPath) as? TimeEntryCell {
             cell.configure(timeEntry: entry)
@@ -65,7 +67,7 @@ class DayViewController: UIViewController, UITableViewDataSource, UITableViewDel
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let type = sections[indexPath.section]
-        let entries = TimeEntryManager.shared.getFor(day: Date(), type: type)
+        let entries = TimeEntryController.shared.getFor(day: Date(), type: type)
         let entry = entries[indexPath.row]
         print("selected entry \(entry)")
     }
@@ -82,8 +84,7 @@ class DayViewController: UIViewController, UITableViewDataSource, UITableViewDel
                                          message: "All data will be cleared and cannot be restored",
                                          preferredStyle: .alert)
         let yesAction = UIAlertAction(title: "Yes", style: .default, handler: { (_) in
-            TimeEntryManager.shared.stopActiveEntry()
-            TimeEntryManager.shared.allTimeEntries.removeAll()
+            TimeEntryController.shared.clearAll()
             self.tableView.reloadData()
         })
         let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
@@ -93,15 +94,12 @@ class DayViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
 
     func startEntry(type: TimeEntryType) {
-        TimeEntryManager.shared.addEntry(type: type)
-        TimeEntryManager.shared.saveAllEntries()
         if let section = sections.index(of: type) {
             tableView.reloadSections(IndexSet(integer: section), with: .automatic)
         }
     }
 
     func stopEntry(type: TimeEntryType) {
-        TimeEntryManager.shared.stopActiveEntry()
         if let section = sections.index(of: type) {
             tableView.reloadSections(IndexSet(integer: section), with: .automatic)
         }

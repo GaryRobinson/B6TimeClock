@@ -17,7 +17,7 @@
 		B2C6E9FF220B5165000531E6 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6E9FE220B5165000531E6 /* SectionHeaderView.swift */; };
 		B2C6EA01220B51A9000531E6 /* TimeEntryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6EA00220B51A9000531E6 /* TimeEntryCell.swift */; };
 		B2C6EA03220B7B03000531E6 /* TimeEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6EA02220B7B03000531E6 /* TimeEntry.swift */; };
-		B2C6EA05220B82C6000531E6 /* TimeEntryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6EA04220B82C6000531E6 /* TimeEntryManager.swift */; };
+		B2C6EA05220B82C6000531E6 /* TimeEntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6EA04220B82C6000531E6 /* TimeEntryController.swift */; };
 		B2C6EA07220B971E000531E6 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6EA06220B971E000531E6 /* Date.swift */; };
 		B2C6EA09220E0F83000531E6 /* SectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2C6EA08220E0F83000531E6 /* SectionHeaderView.xib */; };
 		B2C6EA0B220E273C000531E6 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6EA0A220E273C000531E6 /* SettingsViewController.swift */; };
@@ -60,7 +60,7 @@
 		B2C6E9FE220B5165000531E6 /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 		B2C6EA00220B51A9000531E6 /* TimeEntryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEntryCell.swift; sourceTree = "<group>"; };
 		B2C6EA02220B7B03000531E6 /* TimeEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEntry.swift; sourceTree = "<group>"; };
-		B2C6EA04220B82C6000531E6 /* TimeEntryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEntryManager.swift; sourceTree = "<group>"; };
+		B2C6EA04220B82C6000531E6 /* TimeEntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEntryController.swift; sourceTree = "<group>"; };
 		B2C6EA06220B971E000531E6 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		B2C6EA08220E0F83000531E6 /* SectionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SectionHeaderView.xib; sourceTree = "<group>"; };
 		B2C6EA0A220E273C000531E6 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -160,7 +160,7 @@
 		B2C6EA0D220E27A4000531E6 /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
-				B2C6EA04220B82C6000531E6 /* TimeEntryManager.swift */,
+				B2C6EA04220B82C6000531E6 /* TimeEntryController.swift */,
 				B2C6EA02220B7B03000531E6 /* TimeEntry.swift */,
 				B2C6EA13220E2AA8000531E6 /* TimeEntryType.swift */,
 			);
@@ -336,7 +336,7 @@
 				B2C6E9D3220B387E000531E6 /* DayViewController.swift in Sources */,
 				B2C6E9D1220B387E000531E6 /* AppDelegate.swift in Sources */,
 				B2C6EA01220B51A9000531E6 /* TimeEntryCell.swift in Sources */,
-				B2C6EA05220B82C6000531E6 /* TimeEntryManager.swift in Sources */,
+				B2C6EA05220B82C6000531E6 /* TimeEntryController.swift in Sources */,
 				B2C6EA0B220E273C000531E6 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

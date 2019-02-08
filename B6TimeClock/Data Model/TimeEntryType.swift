@@ -13,6 +13,10 @@ enum TimeEntryType: String {
     case Break
     case AfterCall
 
+    public static func getAll() -> [TimeEntryType] {
+        return [.Shift, .Break, .AfterCall]
+    }
+
     public func title() -> String {
         switch self {
         case .Shift:

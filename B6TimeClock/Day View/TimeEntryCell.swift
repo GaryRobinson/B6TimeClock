@@ -14,30 +14,23 @@ class TimeEntryCell: UITableViewCell {
     @IBOutlet weak var durationLabel: UILabel!
 
     var entry: TimeEntry?
-    var timer: Timer?
-    
+
     func configure(timeEntry: TimeEntry) {
         entry = timeEntry
         
-        //TODO: format the startTime and duration into strings
         beganLabel.text = "Started: \(timeEntry.startTime.formattedTime())"
         durationLabel.text = "Duration: \(timeEntry.durationString())"
 
-        //TODO: timer to update the duration if its active
-        // need a good way to stop it too
-        if timeEntry.stopTime == nil {
-            timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (_) in
-                self.updateTimer()
-            })
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(TimeEntryCell.updateTimer),
+                                               name: TimerNotification, object: nil)
     }
 
     deinit {
-        timer?.invalidate()
+        NotificationCenter.default.removeObserver(self)
     }
 
-    func updateTimer() {
-        if let timeEntry = entry {
+    @objc func updateTimer(_ notification: Notification) {
+        if let timeEntry = entry, timeEntry.stopTime == nil {
             durationLabel.text = "Duration: \(timeEntry.durationString())"
         }
     }

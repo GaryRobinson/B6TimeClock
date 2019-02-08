@@ -26,17 +26,10 @@ class SectionHeaderView: UITableViewHeaderFooterView {
 
     var entryType = TimeEntryType.Shift
     var isTrackingDuration = false
-    weak var delegate: TimeEntryDelegate?
-    var timer: Timer?
 
-    func configure(type: TimeEntryType, delegate: TimeEntryDelegate?) {
-        self.delegate = delegate
-
-        addButton.layer.borderWidth = 1
-        addButton.layer.borderColor = UIColor.white.cgColor
-        addButton.layer.cornerRadius = 5
-
+    func configure(type: TimeEntryType) {
         entryType = type
+
         sectionTitleLabel.text = entryType.title()
         centerTimeTitle.text = entryType.centerTimeTitle()
         leftTimeTitle.text = entryType.leftTimeTitle()
@@ -45,60 +38,74 @@ class SectionHeaderView: UITableViewHeaderFooterView {
         rightTimeTitle.isHidden = entryType.showCenterTimeOnly()
         rightTimeLabel.isHidden = entryType.showCenterTimeOnly()
 
-        //TOOD: add up the total times, based on the time entries
-        switch type {
-        case .Shift:
-            centerTimeLabel.text = TimeEntryManager.shared.getDurationWorked()
-        case .Break:
-            break
-        case .AfterCall:
-            break
-        }
+        isTrackingDuration = TimeEntryController.shared.isActive(type: type)
 
-        if TimeEntryManager.shared.isActive(type: type) {
-            isTrackingDuration = true
-            updateAddButton()
-            startTimer()
-        }
+        updateAddButton()
+        updateTimes()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(SectionHeaderView.updateTimer),
+                                               name: TimerNotification, object: nil)
     }
 
     deinit {
-        stopTimer()
+        NotificationCenter.default.removeObserver(self)
     }
 
     @IBAction func addButtonTapped(_ sender: Any) {
         //TODO: ask if you want to make a new entry for sure?
-
         isTrackingDuration = !isTrackingDuration
-
         updateAddButton()
         if isTrackingDuration {
-            delegate?.startEntry(type: entryType)
-            startTimer()
+            TimeEntryController.shared.addEntry(type: entryType)
         } else {
-            delegate?.stopEntry(type: entryType)
-            stopTimer()
+            TimeEntryController.shared.stopEntry(type: entryType)
         }
     }
 
     func updateAddButton() {
+        addButton.layer.borderWidth = 1
+        addButton.layer.borderColor = UIColor.white.cgColor
+        addButton.layer.cornerRadius = 5
+
         addButton.backgroundColor = isTrackingDuration ? .red : green
         let text = isTrackingDuration ? "Stop" : "Start"
         addButton.setTitle(text, for: .normal)
     }
 
-    func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (_) in
-            self.updateTimer()
-        })
+    func updateTimes() {
+        //TOOD: add up the total times, based on the time entries
+        switch entryType {
+        case .Shift:
+            let worked = TimeEntryController.shared.getDurationWorked()
+            centerTimeLabel.text = Date.formattedDuration(worked)
+        case .Break:
+            let earned = TimeEntryController.shared.getBreakEarned()
+            leftTimeLabel.text = Date.formattedDuration(earned)
+            let used = TimeEntryController.shared.getBreakUsed()
+            centerTimeLabel.text = Date.formattedDuration(used)
+            let remaining = earned - used
+            if remaining < 0 {
+                rightTimeLabel.text = "-\(Date.formattedDuration(-1 * remaining))"
+            } else {
+                rightTimeLabel.text = Date.formattedDuration(remaining)
+            }
+            break
+        case .AfterCall:
+            let available = TimeEntryController.shared.getAvailableEarned()
+            leftTimeLabel.text = Date.formattedDuration(available)
+            let used = TimeEntryController.shared.getAfterCallUsed()
+            centerTimeLabel.text = Date.formattedDuration(used)
+            let remaining = available - used
+            if remaining < 0 {
+                rightTimeLabel.text = "-\(Date.formattedDuration(-1 * remaining))"
+            } else {
+                rightTimeLabel.text = Date.formattedDuration(remaining)
+            }
+            break
+        }
     }
 
-    func stopTimer() {
-        timer?.invalidate()
-        timer = nil
-    }
-
-    func updateTimer() {
-        centerTimeLabel.text = TimeEntryManager.shared.getDurationWorked()
+    @objc func updateTimer(_ notification: Notification) {
+        updateTimes()
     }
 }
