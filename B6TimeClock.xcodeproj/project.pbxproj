@@ -14,11 +14,12 @@
 		B2C6E9DB220B387F000531E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2C6E9D9220B387F000531E6 /* LaunchScreen.storyboard */; };
 		B2C6E9E6220B387F000531E6 /* B6TimeClockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6E9E5220B387F000531E6 /* B6TimeClockTests.swift */; };
 		B2C6E9F1220B387F000531E6 /* B6TimeClockUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6E9F0220B387F000531E6 /* B6TimeClockUITests.swift */; };
-		B2C6E9FF220B5165000531E6 /* SectionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6E9FE220B5165000531E6 /* SectionHeaderCell.swift */; };
+		B2C6E9FF220B5165000531E6 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6E9FE220B5165000531E6 /* SectionHeaderView.swift */; };
 		B2C6EA01220B51A9000531E6 /* TimeEntryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6EA00220B51A9000531E6 /* TimeEntryCell.swift */; };
 		B2C6EA03220B7B03000531E6 /* TimeEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6EA02220B7B03000531E6 /* TimeEntry.swift */; };
 		B2C6EA05220B82C6000531E6 /* TimeEntryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6EA04220B82C6000531E6 /* TimeEntryManager.swift */; };
 		B2C6EA07220B971E000531E6 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6EA06220B971E000531E6 /* Date.swift */; };
+		B2C6EA09220E0F83000531E6 /* SectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2C6EA08220E0F83000531E6 /* SectionHeaderView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,11 +53,12 @@
 		B2C6E9EC220B387F000531E6 /* B6TimeClockUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = B6TimeClockUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2C6E9F0220B387F000531E6 /* B6TimeClockUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = B6TimeClockUITests.swift; sourceTree = "<group>"; };
 		B2C6E9F2220B387F000531E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B2C6E9FE220B5165000531E6 /* SectionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderCell.swift; sourceTree = "<group>"; };
+		B2C6E9FE220B5165000531E6 /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 		B2C6EA00220B51A9000531E6 /* TimeEntryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEntryCell.swift; sourceTree = "<group>"; };
 		B2C6EA02220B7B03000531E6 /* TimeEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEntry.swift; sourceTree = "<group>"; };
 		B2C6EA04220B82C6000531E6 /* TimeEntryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEntryManager.swift; sourceTree = "<group>"; };
 		B2C6EA06220B971E000531E6 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		B2C6EA08220E0F83000531E6 /* SectionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SectionHeaderView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,12 +111,13 @@
 			children = (
 				B2C6E9D0220B387E000531E6 /* AppDelegate.swift */,
 				B2C6E9D4220B387E000531E6 /* Main.storyboard */,
-				B2C6EA06220B971E000531E6 /* Date.swift */,
 				B2C6E9D2220B387E000531E6 /* TodayViewController.swift */,
-				B2C6E9FE220B5165000531E6 /* SectionHeaderCell.swift */,
+				B2C6EA08220E0F83000531E6 /* SectionHeaderView.xib */,
+				B2C6E9FE220B5165000531E6 /* SectionHeaderView.swift */,
 				B2C6EA00220B51A9000531E6 /* TimeEntryCell.swift */,
 				B2C6EA02220B7B03000531E6 /* TimeEntry.swift */,
 				B2C6EA04220B82C6000531E6 /* TimeEntryManager.swift */,
+				B2C6EA06220B971E000531E6 /* Date.swift */,
 				B2C6E9D7220B387F000531E6 /* Assets.xcassets */,
 				B2C6E9D9220B387F000531E6 /* LaunchScreen.storyboard */,
 				B2C6E9DC220B387F000531E6 /* Info.plist */,
@@ -247,6 +250,7 @@
 				B2C6E9DB220B387F000531E6 /* LaunchScreen.storyboard in Resources */,
 				B2C6E9D8220B387F000531E6 /* Assets.xcassets in Resources */,
 				B2C6E9D6220B387E000531E6 /* Main.storyboard in Resources */,
+				B2C6EA09220E0F83000531E6 /* SectionHeaderView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,7 +276,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2C6EA03220B7B03000531E6 /* TimeEntry.swift in Sources */,
-				B2C6E9FF220B5165000531E6 /* SectionHeaderCell.swift in Sources */,
+				B2C6E9FF220B5165000531E6 /* SectionHeaderView.swift in Sources */,
 				B2C6EA07220B971E000531E6 /* Date.swift in Sources */,
 				B2C6E9D3220B387E000531E6 /* TodayViewController.swift in Sources */,
 				B2C6E9D1220B387E000531E6 /* AppDelegate.swift in Sources */,

@@ -11,65 +11,79 @@ import UIKit
 class TimeEntry: NSObject {
 
     var id: Int
-    var forDate: Date
     var type: TimeEntryType
     var startTime: Date
-    var duration: Double
+    var stopTime: Date?
 
     override public init() {
         id = 0
-        forDate = Date()
         type = .Shift
         startTime = Date()
-        duration = 0
+        stopTime = nil
         super.init()
     }
 
     public init(id: Int, type: TimeEntryType) {
         self.id = id
-        forDate = Date()
         self.type = type
         startTime = Date()
-        duration = 0
+        stopTime = nil
         super.init()
     }
 
     public init(id: Int,
-                forDate: Date,
                 type: TimeEntryType,
                 startTime: Date,
-                duration: Double) {
+                stopTime: Date?) {
         self.id = id
-        self.forDate = forDate
         self.type = type
         self.startTime = startTime
-        self.duration = duration
+        self.stopTime = stopTime
         super.init()
     }
 
     func toDictionary() -> [String: Any] {
-        return ["id": id,
-                "forDate": forDate,
-                "type": type.rawValue,
-                "startTime": startTime,
-                "duration": duration]
+        var dict: [String: Any] = ["id": id,
+                                   "type": type.rawValue,
+                                   "startTime": startTime]
+        if let stop = stopTime {
+            dict["stopTime"] = stop
+        }
+        return dict
     }
 
     static func fromDictionary(_ dict: [String: Any]) -> TimeEntry? {
         if let id = dict["id"] as? Int,
-            let forDate = dict["forDate"] as? Date,
             let rawType = dict["type"] as? String,
             let type = TimeEntryType(rawValue: rawType),
-            let startTime = dict["startTime"] as? Date,
-            let duration = dict["duration"] as? Double {
+            let startTime = dict["startTime"] as? Date {
 
+            var stopTime: Date?
+            if let stop = dict["stopTime"] as? Date {
+                stopTime = stop
+            }
             return TimeEntry.init(id: id,
-                                  forDate: forDate,
                                   type: type,
                                   startTime: startTime,
-                                  duration: duration)
+                                  stopTime: stopTime)
         }
         return nil
+    }
+
+    func durationString() -> String {
+        if let stop = stopTime {
+            return Date.formattedDuration(stop.timeIntervalSince(startTime))
+        } else {
+            return Date.formattedDuration(Date().timeIntervalSince(startTime))
+        }
+    }
+
+    func duration() -> TimeInterval {
+        if let stop = stopTime {
+            return stop.timeIntervalSince(startTime)
+        } else {
+            return Date().timeIntervalSince(startTime)
+        }
     }
 
 }

@@ -23,4 +23,23 @@ extension Date {
         let dateString = formatter.string(from: self)
         return dateString
     }
+
+    public static func formattedDuration(_ duration: TimeInterval) -> String {
+        let seconds = Int(duration) % 60
+        let secondsString = String(format: "%02d", seconds)
+        let minutes = (Int(duration) / 60) % 60
+        let minutesString = String(format: "%02d", minutes)
+        let hours = Int(duration) / (60 * 60)
+        let hoursString = String(format: "%02d", hours)
+        return "\(hoursString):\(minutesString):\(secondsString)"
+    }
+
+    public func durationTo(date: Date) -> String {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.hour, .minute, .second]
+        if let result = formatter.string(from: self, to: date) {
+            return result
+        }
+        return "00:00:00"
+    }
 }

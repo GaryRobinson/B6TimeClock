@@ -8,7 +8,12 @@
 
 import UIKit
 
-class SectionHeaderCell: UITableViewCell {
+let green = UIColor.init(red: 27.0/255.0,
+                         green: 210.0/255.0,
+                         blue: 141.0/255.0,
+                         alpha: 1)
+
+class SectionHeaderView: UITableViewHeaderFooterView {
 
     @IBOutlet weak var sectionTitleLabel: UILabel!
     @IBOutlet weak var leftTimeTitle: UILabel!
@@ -21,8 +26,12 @@ class SectionHeaderCell: UITableViewCell {
 
     var entryType = TimeEntryType.Shift
     var isTrackingDuration = false
+    weak var delegate: TimeEntryDelegate?
+    var timer: Timer?
 
-    func configure(type: TimeEntryType) {
+    func configure(type: TimeEntryType, delegate: TimeEntryDelegate?) {
+        self.delegate = delegate
+
         addButton.layer.borderWidth = 1
         addButton.layer.borderColor = UIColor.white.cgColor
         addButton.layer.cornerRadius = 5
@@ -37,21 +46,52 @@ class SectionHeaderCell: UITableViewCell {
         rightTimeLabel.isHidden = entryType.showCenterTimeOnly()
 
         //TOOD: add up the total times, based on the time entries
+        centerTimeLabel.text = TimeEntryManager.shared.getDurationWorked()
 
+        if TimeEntryManager.shared.isActive(type: type) {
+            isTrackingDuration = true
+            updateAddButton()
+            startTimer()
+        }
+    }
+
+    deinit {
+        stopTimer()
     }
 
     @IBAction func addButtonTapped(_ sender: Any) {
+        //TODO: ask if you want to make a new entry for sure?
+
         isTrackingDuration = !isTrackingDuration
-        let green = UIColor.init(red: 27.0/255.0,
-                                 green: 210.0/255.0,
-                                 blue: 141.0/255.0,
-                                 alpha: 1)
+
+        updateAddButton()
+        if isTrackingDuration {
+            delegate?.startEntry(type: entryType)
+            startTimer()
+        } else {
+            delegate?.stopEntry(type: entryType)
+            stopTimer()
+        }
+    }
+
+    func updateAddButton() {
         addButton.backgroundColor = isTrackingDuration ? .red : green
         let text = isTrackingDuration ? "Stop" : "Start"
         addButton.setTitle(text, for: .normal)
+    }
 
-        //TODO: ask if you want to make a new entry for sure?
-        // then make the new entry, reload the table view as appropriate
-        // use timers to keep updating the table view cells each second
+    func startTimer() {
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (_) in
+            self.updateTimer()
+        })
+    }
+
+    func stopTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+
+    func updateTimer() {
+        centerTimeLabel.text = TimeEntryManager.shared.getDurationWorked()
     }
 }

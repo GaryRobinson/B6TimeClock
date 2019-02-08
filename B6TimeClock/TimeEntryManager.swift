@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol TimeEntryDelegate: class {
+    func startEntry(type: TimeEntryType)
+    func stopEntry(type: TimeEntryType)
+}
+
 class TimeEntryManager: NSObject {
     public static let shared = TimeEntryManager()
 
@@ -23,6 +28,9 @@ class TimeEntryManager: NSObject {
                 }
             }
         }
+
+        //TODO: stop this - just clearing them now so I don't have issues before it works
+//        allTimeEntries.removeAll()
     }
 
     func saveAllEntries() {
@@ -53,4 +61,28 @@ class TimeEntryManager: NSObject {
             t1.startTime < t2.startTime
         })
     }
+
+    public func getDurationWorked() -> String {
+        var duration: TimeInterval = 0
+        let entries = TimeEntryManager.shared.getFor(day: Date(), type: .Shift)
+        for entry in entries {
+            duration += entry.duration()
+        }
+        return Date.formattedDuration(duration)
+    }
+
+    public func stopActiveEntry() {
+        if let active = allTimeEntries.filter({ $0.stopTime == nil }).first {
+            active.stopTime = Date()
+        }
+        saveAllEntries()
+    }
+
+    public func isActive(type: TimeEntryType) -> Bool {
+        if let _ = allTimeEntries.filter({ $0.type == type && $0.stopTime == nil }).first {
+            return true
+        }
+        return false
+    }
+
 }

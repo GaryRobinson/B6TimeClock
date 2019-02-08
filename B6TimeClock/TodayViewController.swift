@@ -8,7 +8,9 @@
 
 import UIKit
 
-class TodayViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+let sectionHeaderId = "SectionHeaderView"
+
+class TodayViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TimeEntryDelegate {
 
     @IBOutlet weak var tableView: UITableView!
 
@@ -16,8 +18,11 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        tableView.register(UINib(nibName: sectionHeaderId, bundle: nil),
+                           forHeaderFooterViewReuseIdentifier: sectionHeaderId)
         tableView.tableFooterView = UIView()
+
+        TimeEntryManager.shared.loadSavedEntries()
     }
 
     // MARK: - Table View
@@ -28,8 +33,9 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let type = sections[section]
-        if let headerView = tableView.dequeueReusableCell(withIdentifier: "SectionHeaderCell") as? SectionHeaderCell {
-            headerView.configure(type: type)
+        if let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: sectionHeaderId)
+            as? SectionHeaderView {
+            headerView.configure(type: type, delegate: self)
             return headerView
         }
         return nil
@@ -74,6 +80,21 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     @IBAction func resetTapped(_ sender: Any) {
         print("reset tapped")
+    }
+
+    func startEntry(type: TimeEntryType) {
+        TimeEntryManager.shared.addEntry(type: type)
+        TimeEntryManager.shared.saveAllEntries()
+        if let section = sections.index(of: type) {
+            tableView.reloadSections(IndexSet(integer: section), with: .automatic)
+        }
+    }
+
+    func stopEntry(type: TimeEntryType) {
+        TimeEntryManager.shared.stopActiveEntry()
+        if let section = sections.index(of: type) {
+            tableView.reloadSections(IndexSet(integer: section), with: .automatic)
+        }
     }
 
 }
