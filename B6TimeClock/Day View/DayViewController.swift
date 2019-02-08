@@ -10,7 +10,7 @@ import UIKit
 
 let sectionHeaderId = "SectionHeaderView"
 
-class TodayViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TimeEntryDelegate {
+class DayViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TimeEntryDelegate {
 
     @IBOutlet weak var tableView: UITableView!
 
@@ -21,8 +21,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         tableView.register(UINib(nibName: sectionHeaderId, bundle: nil),
                            forHeaderFooterViewReuseIdentifier: sectionHeaderId)
         tableView.tableFooterView = UIView()
-
-        TimeEntryManager.shared.loadSavedEntries()
     }
 
     // MARK: - Table View
@@ -75,11 +73,23 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     // MARK: - Actions
 
     @IBAction func settingsTapped(_ sender: Any) {
-        print("settings tapped")
+        let settingsVC = SettingsViewController.initFromStoryboard()
+        present(settingsVC, animated: true, completion: nil)
     }
 
     @IBAction func resetTapped(_ sender: Any) {
-        print("reset tapped")
+        let alert = UIAlertController(title: "Are you sure you want to reset?",
+                                         message: "All data will be cleared and cannot be restored",
+                                         preferredStyle: .alert)
+        let yesAction = UIAlertAction(title: "Yes", style: .default, handler: { (_) in
+            TimeEntryManager.shared.stopActiveEntry()
+            TimeEntryManager.shared.allTimeEntries.removeAll()
+            self.tableView.reloadData()
+        })
+        let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+        alert.addAction(yesAction)
+        alert.addAction(noAction)
+        present(alert, animated: true, completion: nil)
     }
 
     func startEntry(type: TimeEntryType) {

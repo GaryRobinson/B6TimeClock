@@ -46,7 +46,14 @@ class SectionHeaderView: UITableViewHeaderFooterView {
         rightTimeLabel.isHidden = entryType.showCenterTimeOnly()
 
         //TOOD: add up the total times, based on the time entries
-        centerTimeLabel.text = TimeEntryManager.shared.getDurationWorked()
+        switch type {
+        case .Shift:
+            centerTimeLabel.text = TimeEntryManager.shared.getDurationWorked()
+        case .Break:
+            break
+        case .AfterCall:
+            break
+        }
 
         if TimeEntryManager.shared.isActive(type: type) {
             isTrackingDuration = true

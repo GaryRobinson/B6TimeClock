@@ -28,9 +28,6 @@ class TimeEntryManager: NSObject {
                 }
             }
         }
-
-        //TODO: stop this - just clearing them now so I don't have issues before it works
-//        allTimeEntries.removeAll()
     }
 
     func saveAllEntries() {

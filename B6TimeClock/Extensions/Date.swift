@@ -24,14 +24,18 @@ extension Date {
         return dateString
     }
 
-    public static func formattedDuration(_ duration: TimeInterval) -> String {
+    public static func formattedDuration(_ duration: TimeInterval, noHours: Bool = false) -> String {
         let seconds = Int(duration) % 60
         let secondsString = String(format: "%02d", seconds)
         let minutes = (Int(duration) / 60) % 60
         let minutesString = String(format: "%02d", minutes)
-        let hours = Int(duration) / (60 * 60)
-        let hoursString = String(format: "%02d", hours)
-        return "\(hoursString):\(minutesString):\(secondsString)"
+        if noHours {
+            return "\(minutesString):\(secondsString)"
+        } else {
+            let hours = Int(duration) / (60 * 60)
+            let hoursString = String(format: "%02d", hours)
+            return "\(hoursString):\(minutesString):\(secondsString)"
+        }
     }
 
     public func durationTo(date: Date) -> String {
