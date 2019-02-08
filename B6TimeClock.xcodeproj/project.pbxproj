@@ -24,6 +24,7 @@
 		B2C6EA12220E2A02000531E6 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6EA11220E2A02000531E6 /* SettingsCell.swift */; };
 		B2C6EA14220E2AA8000531E6 /* TimeEntryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6EA13220E2AA8000531E6 /* TimeEntryType.swift */; };
 		B2C6EA16220E2BD5000531E6 /* SettingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6EA15220E2BD5000531E6 /* SettingType.swift */; };
+		B2C6EA18220E4417000531E6 /* EditTimeEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6EA17220E4417000531E6 /* EditTimeEntryViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		B2C6EA11220E2A02000531E6 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		B2C6EA13220E2AA8000531E6 /* TimeEntryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEntryType.swift; sourceTree = "<group>"; };
 		B2C6EA15220E2BD5000531E6 /* SettingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingType.swift; sourceTree = "<group>"; };
+		B2C6EA17220E4417000531E6 /* EditTimeEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTimeEntryViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +155,7 @@
 				B2C6EA08220E0F83000531E6 /* SectionHeaderView.xib */,
 				B2C6E9FE220B5165000531E6 /* SectionHeaderView.swift */,
 				B2C6EA00220B51A9000531E6 /* TimeEntryCell.swift */,
+				B2C6EA17220E4417000531E6 /* EditTimeEntryViewController.swift */,
 			);
 			path = "Day View";
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 				B2C6E9D1220B387E000531E6 /* AppDelegate.swift in Sources */,
 				B2C6EA01220B51A9000531E6 /* TimeEntryCell.swift in Sources */,
 				B2C6EA05220B82C6000531E6 /* TimeEntryController.swift in Sources */,
+				B2C6EA18220E4417000531E6 /* EditTimeEntryViewController.swift in Sources */,
 				B2C6EA0B220E273C000531E6 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

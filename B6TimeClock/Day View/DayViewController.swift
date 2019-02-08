@@ -15,6 +15,7 @@ class DayViewController: UIViewController, UITableViewDataSource, UITableViewDel
     @IBOutlet weak var tableView: UITableView!
 
     var sections: [TimeEntryType] = TimeEntryType.getAll()
+    var selectedEntry: TimeEntry?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +70,8 @@ class DayViewController: UIViewController, UITableViewDataSource, UITableViewDel
         let type = sections[indexPath.section]
         let entries = TimeEntryController.shared.getFor(day: Date(), type: type)
         let entry = entries[indexPath.row]
-        print("selected entry \(entry)")
+        selectedEntry = entry
+        performSegue(withIdentifier: "editTimeEntry", sender: self)
     }
 
     // MARK: - Actions
@@ -102,6 +104,12 @@ class DayViewController: UIViewController, UITableViewDataSource, UITableViewDel
     func stopEntry(type: TimeEntryType) {
         if let section = sections.index(of: type) {
             tableView.reloadSections(IndexSet(integer: section), with: .automatic)
+        }
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destVC = segue.destination as? EditTimeEntryViewController {
+            destVC.entry = selectedEntry
         }
     }
 
