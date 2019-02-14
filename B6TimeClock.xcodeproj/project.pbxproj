@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B2C6E9D1220B387E000531E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6E9D0220B387E000531E6 /* AppDelegate.swift */; };
-		B2C6E9D3220B387E000531E6 /* DayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6E9D2220B387E000531E6 /* DayViewController.swift */; };
+		B2C6E9D3220B387E000531E6 /* WeekViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6E9D2220B387E000531E6 /* WeekViewController.swift */; };
 		B2C6E9D6220B387E000531E6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2C6E9D4220B387E000531E6 /* Main.storyboard */; };
 		B2C6E9D8220B387F000531E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2C6E9D7220B387F000531E6 /* Assets.xcassets */; };
 		B2C6E9DB220B387F000531E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2C6E9D9220B387F000531E6 /* LaunchScreen.storyboard */; };
@@ -47,7 +47,7 @@
 /* Begin PBXFileReference section */
 		B2C6E9CD220B387E000531E6 /* B6TimeClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = B6TimeClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2C6E9D0220B387E000531E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B2C6E9D2220B387E000531E6 /* DayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayViewController.swift; sourceTree = "<group>"; };
+		B2C6E9D2220B387E000531E6 /* WeekViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekViewController.swift; sourceTree = "<group>"; };
 		B2C6E9D5220B387E000531E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B2C6E9D7220B387F000531E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B2C6E9DA220B387F000531E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -121,7 +121,7 @@
 			children = (
 				B2C6E9D0220B387E000531E6 /* AppDelegate.swift */,
 				B2C6E9D4220B387E000531E6 /* Main.storyboard */,
-				B2C6EA0C220E2778000531E6 /* Day View */,
+				B2C6EA0C220E2778000531E6 /* Week View */,
 				B2C6EA10220E283A000531E6 /* Settings View */,
 				B2C6EA0D220E27A4000531E6 /* Data Model */,
 				B2C6EA0E220E27DD000531E6 /* Extensions */,
@@ -148,16 +148,16 @@
 			path = B6TimeClockUITests;
 			sourceTree = "<group>";
 		};
-		B2C6EA0C220E2778000531E6 /* Day View */ = {
+		B2C6EA0C220E2778000531E6 /* Week View */ = {
 			isa = PBXGroup;
 			children = (
-				B2C6E9D2220B387E000531E6 /* DayViewController.swift */,
+				B2C6E9D2220B387E000531E6 /* WeekViewController.swift */,
 				B2C6EA08220E0F83000531E6 /* SectionHeaderView.xib */,
 				B2C6E9FE220B5165000531E6 /* SectionHeaderView.swift */,
 				B2C6EA00220B51A9000531E6 /* TimeEntryCell.swift */,
 				B2C6EA17220E4417000531E6 /* EditTimeEntryViewController.swift */,
 			);
-			path = "Day View";
+			path = "Week View";
 			sourceTree = "<group>";
 		};
 		B2C6EA0D220E27A4000531E6 /* Data Model */ = {
@@ -336,7 +336,7 @@
 				B2C6EA14220E2AA8000531E6 /* TimeEntryType.swift in Sources */,
 				B2C6EA07220B971E000531E6 /* Date.swift in Sources */,
 				B2C6EA16220E2BD5000531E6 /* SettingType.swift in Sources */,
-				B2C6E9D3220B387E000531E6 /* DayViewController.swift in Sources */,
+				B2C6E9D3220B387E000531E6 /* WeekViewController.swift in Sources */,
 				B2C6E9D1220B387E000531E6 /* AppDelegate.swift in Sources */,
 				B2C6EA01220B51A9000531E6 /* TimeEntryCell.swift in Sources */,
 				B2C6EA05220B82C6000531E6 /* TimeEntryController.swift in Sources */,

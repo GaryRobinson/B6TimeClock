@@ -10,7 +10,7 @@ import UIKit
 
 let sectionHeaderId = "SectionHeaderView"
 
-class DayViewController: UIViewController, UITableViewDataSource, UITableViewDelegate,
+class WeekViewController: UIViewController, UITableViewDataSource, UITableViewDelegate,
     TimeEntryDelegate, EditTimeEntryDelegate {
 
     @IBOutlet weak var tableView: UITableView!
