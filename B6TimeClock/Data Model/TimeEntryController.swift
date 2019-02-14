@@ -74,6 +74,13 @@ class TimeEntryController: NSObject {
         delegate?.stopEntry(type: type)
     }
 
+    public func deleteEntry(_ entry: TimeEntry) {
+        if let index = allTimeEntries.index(of: entry) {
+            allTimeEntries.remove(at: index)
+            saveAllEntries()
+        }
+    }
+
     public func clearAll() {
         for type in TimeEntryType.getAll() {
             stopEntry(type: type)
@@ -91,8 +98,7 @@ class TimeEntryController: NSObject {
 
     public func getFor(day: Date, type: TimeEntryType) -> [TimeEntry] {
         let result = allTimeEntries.filter({ (entry) -> Bool in
-            if entry.type == type {
-                //TODO: also test for the data being on the same day
+            if entry.type == type, Calendar.current.isDate(entry.startTime, inSameDayAs: day) {
                 return true
             }
             return false

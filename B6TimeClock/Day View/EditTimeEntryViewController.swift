@@ -8,12 +8,17 @@
 
 import UIKit
 
+protocol EditTimeEntryDelegate: class {
+    func updateEntries()
+}
+
 class EditTimeEntryViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var startTextField: UITextField!
     @IBOutlet weak var durationTextField: UITextField!
     @IBOutlet weak var deleteButton: UIButton!
 
+    weak var delegate: EditTimeEntryDelegate?
     var entry: TimeEntry?
     var toolbar = UIToolbar()
 
@@ -35,6 +40,8 @@ class EditTimeEntryViewController: UIViewController, UITextFieldDelegate {
                                          action: #selector(EditTimeEntryViewController.saveTapped))
         saveButton.tintColor = .white
         navigationItem.rightBarButtonItem = saveButton
+
+        deleteButton.layer.cornerRadius = 5
     }
 
     func initTextFields(entry: TimeEntry, stopTime: Date) {
@@ -43,16 +50,15 @@ class EditTimeEntryViewController: UIViewController, UITextFieldDelegate {
         toolbar.isTranslucent = true
         toolbar.tintColor = .blue
         toolbar.sizeToFit()
-        //TODO: cancel button too?
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelPicker))
         let flexButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donePicker))
-        toolbar.setItems([flexButton, doneButton], animated: false)
+        toolbar.setItems([cancelButton, flexButton, doneButton], animated: false)
         toolbar.isUserInteractionEnabled = true
 
-        //TODO: initialize them
         startTextField.text = entry.startTime.formattedTime()
         startTimePicker = UIDatePicker()
-        startTimePicker.datePickerMode = .time
+        startTimePicker.datePickerMode = .dateAndTime
         startTimePicker.date = entry.startTime
         startTextField.inputView = startTimePicker
         startTextField.inputAccessoryView = toolbar
@@ -84,10 +90,17 @@ class EditTimeEntryViewController: UIViewController, UITextFieldDelegate {
 //
 //    }
 
-    //TODO: hook up the value changed event so the text updates that way
+    @objc func cancelPicker(sender: UIBarButtonItem) {
+        if startTextField.isEditing {
+            startTextField.endEditing(true)
+        }
+        if durationTextField.isEditing {
+            durationTextField.endEditing(true)
+        }
+    }
+
     @objc func donePicker(sender: UIBarButtonItem) {
         if startTextField.isEditing {
-            //TODO: pull out the value
             if let timeEntry = entry {
                 timeEntry.startTime = startTimePicker.date
                 startTextField.text = timeEntry.startTime.formattedTime()
@@ -95,7 +108,6 @@ class EditTimeEntryViewController: UIViewController, UITextFieldDelegate {
             startTextField.endEditing(true)
         }
         if durationTextField.isEditing {
-            //TODO: pull out the value
             let duration = durationTimePicker.countDownDuration
             if let timeEntry = entry {
                 timeEntry.stopTime = timeEntry.startTime.addingTimeInterval(duration)
@@ -129,14 +141,29 @@ class EditTimeEntryViewController: UIViewController, UITextFieldDelegate {
     // MARK: Button Actions
 
     @objc func saveTapped() {
-        print("saveTapped")
         TimeEntryController.shared.saveAllEntries()
         navigationController?.popViewController(animated: true)
-        //TODO: get the main view to reload the cell w/ this entry
+        delegate?.updateEntries()
     }
 
     @IBAction func deleteTapped(_ sender: Any) {
-        print("deleteTapped")
+        let alert = UIAlertController(title: "Are you sure you want to delete this entry?",
+                                      message: "This action cannot be undone",
+                                      preferredStyle: .alert)
+        let yesAction = UIAlertAction(title: "Yes", style: .default, handler: { (_) in
+            self.doDelete()
+        })
+        let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+        alert.addAction(yesAction)
+        alert.addAction(noAction)
+        present(alert, animated: true, completion: nil)
+    }
+
+    func doDelete() {
+        if let currentEntry = entry {
+            TimeEntryController.shared.deleteEntry(currentEntry)
+        }
         navigationController?.popViewController(animated: true)
+        delegate?.updateEntries()
     }
 }

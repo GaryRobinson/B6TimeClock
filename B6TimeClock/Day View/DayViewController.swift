@@ -10,7 +10,8 @@ import UIKit
 
 let sectionHeaderId = "SectionHeaderView"
 
-class DayViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TimeEntryDelegate {
+class DayViewController: UIViewController, UITableViewDataSource, UITableViewDelegate,
+    TimeEntryDelegate, EditTimeEntryDelegate {
 
     @IBOutlet weak var tableView: UITableView!
 
@@ -110,7 +111,12 @@ class DayViewController: UIViewController, UITableViewDataSource, UITableViewDel
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destVC = segue.destination as? EditTimeEntryViewController {
             destVC.entry = selectedEntry
+            destVC.delegate = self
         }
+    }
+
+    func updateEntries() {
+        tableView.reloadData()
     }
 
 }

@@ -18,8 +18,8 @@ class TimeEntryCell: UITableViewCell {
     func configure(timeEntry: TimeEntry) {
         entry = timeEntry
         
-        beganLabel.text = "Started: \(timeEntry.startTime.formattedTime())"
-        durationLabel.text = "Duration: \(timeEntry.durationString())"
+        beganLabel.text = timeEntry.startTime.formattedTime()
+        durationLabel.text = timeEntry.durationString()
 
         NotificationCenter.default.addObserver(self, selector: #selector(TimeEntryCell.updateTimer),
                                                name: TimerNotification, object: nil)
@@ -31,7 +31,7 @@ class TimeEntryCell: UITableViewCell {
 
     @objc func updateTimer(_ notification: Notification) {
         if let timeEntry = entry, timeEntry.stopTime == nil {
-            durationLabel.text = "Duration: \(timeEntry.durationString())"
+            durationLabel.text = timeEntry.durationString()
         }
     }
 

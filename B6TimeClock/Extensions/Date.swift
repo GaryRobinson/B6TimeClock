@@ -19,7 +19,7 @@ extension Date {
 
     public func formattedTime() -> String {
         let formatter = Date.localDateFormatter()
-        formatter.dateFormat = "h:mm:ss a"
+        formatter.dateFormat = "MM'/'dd'/'yy, h:mm:ss a"
         let dateString = formatter.string(from: self)
         return dateString
     }
