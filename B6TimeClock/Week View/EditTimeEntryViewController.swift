@@ -12,7 +12,7 @@ protocol EditTimeEntryDelegate: class {
     func updateEntries()
 }
 
-class EditTimeEntryViewController: UIViewController, UITextFieldDelegate {
+class EditTimeEntryViewController: UIViewController/*, UITextFieldDelegate*/ {
 
     @IBOutlet weak var startTextField: UITextField!
     @IBOutlet weak var durationTextField: UITextField!
@@ -100,6 +100,10 @@ class EditTimeEntryViewController: UIViewController, UITextFieldDelegate {
     }
 
     @objc func donePicker(sender: UIBarButtonItem) {
+        updateTextFields()
+    }
+
+    func updateTextFields() {
         if startTextField.isEditing {
             if let timeEntry = entry {
                 timeEntry.startTime = startTimePicker.date
@@ -119,28 +123,29 @@ class EditTimeEntryViewController: UIViewController, UITextFieldDelegate {
 
     // MARK: Text Field - not sure this section is needed
 
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-
-    }
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
-
-    }
-
-    func textField(_ textField: UITextField,
-                   shouldChangeCharactersIn range: NSRange,
-                   replacementString string: String) -> Bool {
-
-        return true
-    }
-
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        return true
-    }
+//    func textFieldDidBeginEditing(_ textField: UITextField) {
+//
+//    }
+//
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//
+//    }
+//
+//    func textField(_ textField: UITextField,
+//                   shouldChangeCharactersIn range: NSRange,
+//                   replacementString string: String) -> Bool {
+//
+//        return true
+//    }
+//
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        return true
+//    }
 
     // MARK: Button Actions
 
     @objc func saveTapped() {
+        updateTextFields()
         TimeEntryController.shared.saveAllEntries()
         navigationController?.popViewController(animated: true)
         delegate?.updateEntries()
