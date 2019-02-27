@@ -39,12 +39,7 @@ class WeekViewController: UIViewController, UITableViewDataSource, UITableViewDe
         changeWeekButton.layer.borderColor = UIColor.white.cgColor
         changeWeekButton.layer.cornerRadius = 5
 
-        currentStartOfWeek = TimeEntryController.shared.selectedDate.startOfWeek()
-        let startString = currentStartOfWeek.formattedStartOfWeek()
-        let endString = currentStartOfWeek.formattedEndOfWeek()
-        weekLabel.text = "Sun, \(startString) to Sat, \(endString)"
-        daySegmentedControl.selectedSegmentIndex = Calendar.current.component(
-            .weekday, from: TimeEntryController.shared.selectedDate) - 1
+        updateCurrentWeek()
 
         NotificationCenter.default.addObserver(self, selector: #selector(WeekViewController.updateTimer),
                                                name: TimerNotification, object: nil)
@@ -56,8 +51,18 @@ class WeekViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        updateCurrentWeek()
         updateSummaryTimes()
         updateEntries()
+    }
+
+    func updateCurrentWeek() {
+        currentStartOfWeek = TimeEntryController.shared.selectedDate.startOfWeek()
+        let startString = currentStartOfWeek.formattedStartOfWeek()
+        let endString = currentStartOfWeek.formattedEndOfWeek()
+        weekLabel.text = "Sun, \(startString) to Sat, \(endString)"
+        daySegmentedControl.selectedSegmentIndex = Calendar.current.component(
+            .weekday, from: TimeEntryController.shared.selectedDate) - 1
     }
 
     // MARK: - Table View
@@ -123,6 +128,10 @@ class WeekViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @IBAction func settingsTapped(_ sender: Any) {
         let settingsVC = SettingsViewController.initFromStoryboard()
         present(settingsVC, animated: true, completion: nil)
+    }
+
+    @IBAction func changeWeekTapped(_ sender: Any) {
+        performSegue(withIdentifier: "changeWeek", sender: self)
     }
 
     @IBAction func resetTapped(_ sender: Any) {

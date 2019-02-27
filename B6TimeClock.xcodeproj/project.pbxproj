@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B28AAC952227404300BBE742 /* TimeSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28AAC942227404300BBE742 /* TimeSummary.swift */; };
+		B28AAC97222755AD00BBE742 /* ChangeWeekViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28AAC96222755AD00BBE742 /* ChangeWeekViewController.swift */; };
 		B2C6E9D1220B387E000531E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6E9D0220B387E000531E6 /* AppDelegate.swift */; };
 		B2C6E9D3220B387E000531E6 /* WeekViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6E9D2220B387E000531E6 /* WeekViewController.swift */; };
 		B2C6E9D6220B387E000531E6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2C6E9D4220B387E000531E6 /* Main.storyboard */; };
@@ -47,6 +48,7 @@
 
 /* Begin PBXFileReference section */
 		B28AAC942227404300BBE742 /* TimeSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSummary.swift; sourceTree = "<group>"; };
+		B28AAC96222755AD00BBE742 /* ChangeWeekViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeWeekViewController.swift; sourceTree = "<group>"; };
 		B2C6E9CD220B387E000531E6 /* B6TimeClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = B6TimeClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2C6E9D0220B387E000531E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B2C6E9D2220B387E000531E6 /* WeekViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekViewController.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				B2C6E9FE220B5165000531E6 /* SectionHeaderView.swift */,
 				B2C6EA00220B51A9000531E6 /* TimeEntryCell.swift */,
 				B2C6EA17220E4417000531E6 /* EditTimeEntryViewController.swift */,
+				B28AAC96222755AD00BBE742 /* ChangeWeekViewController.swift */,
 			);
 			path = "Week View";
 			sourceTree = "<group>";
@@ -339,6 +342,7 @@
 				B2C6EA12220E2A02000531E6 /* SettingsCell.swift in Sources */,
 				B2C6EA14220E2AA8000531E6 /* TimeEntryType.swift in Sources */,
 				B2C6EA07220B971E000531E6 /* Date.swift in Sources */,
+				B28AAC97222755AD00BBE742 /* ChangeWeekViewController.swift in Sources */,
 				B2C6EA16220E2BD5000531E6 /* SettingType.swift in Sources */,
 				B2C6E9D3220B387E000531E6 /* WeekViewController.swift in Sources */,
 				B2C6E9D1220B387E000531E6 /* AppDelegate.swift in Sources */,

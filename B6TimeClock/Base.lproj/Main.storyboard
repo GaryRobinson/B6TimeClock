@@ -61,7 +61,7 @@
                                         </constraints>
                                         <state key="normal" title="Change"/>
                                         <connections>
-                                            <action selector="addButtonTapped:" destination="dkx-z0-nzr" eventType="touchUpInside" id="xPr-BJ-Dsl"/>
+                                            <action selector="changeWeekTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TK3-Va-xi1"/>
                                         </connections>
                                     </button>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="44U-9E-6qI">
@@ -280,11 +280,48 @@
                         <outlet property="weekTotalBreakLabel" destination="AWj-Cf-t82" id="Bnn-nT-Hu4"/>
                         <outlet property="weekTotalShiftLabel" destination="lmx-5g-4oI" id="Nkg-cE-TOz"/>
                         <segue destination="qfl-Nc-JEn" kind="show" identifier="editTimeEntry" id="6ig-aD-tU5"/>
+                        <segue destination="K2c-qj-lhI" kind="show" identifier="changeWeek" id="DBp-8p-lD0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="263.19999999999999" y="133.5832083958021"/>
+        </scene>
+        <!--Change Week-->
+        <scene sceneID="Py7-Ey-XsP">
+            <objects>
+                <viewController title="Change Week" id="K2c-qj-lhI" customClass="ChangeWeekViewController" customModule="B6TimeClock" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="qwc-Im-kP0">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="aGK-aN-ZKe">
+                                <rect key="frame" x="0.0" y="20" width="375" height="216"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="216" id="eEK-ZA-xr3"/>
+                                </constraints>
+                                <date key="date" timeIntervalSinceReferenceDate="573003249.46387506">
+                                    <!--2019-02-27 23:34:09 +0000-->
+                                </date>
+                            </datePicker>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="aGK-aN-ZKe" firstAttribute="leading" secondItem="kw5-qG-hEO" secondAttribute="leading" id="0ia-N0-D1r"/>
+                            <constraint firstItem="aGK-aN-ZKe" firstAttribute="top" secondItem="kw5-qG-hEO" secondAttribute="top" constant="20" id="Q8l-cX-Bcg"/>
+                            <constraint firstItem="kw5-qG-hEO" firstAttribute="trailing" secondItem="aGK-aN-ZKe" secondAttribute="trailing" id="SfD-xJ-uyS"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="kw5-qG-hEO"/>
+                    </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="datePicker" destination="aGK-aN-ZKe" id="38p-DT-9wj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1x9-Xk-dUx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1204" y="-147"/>
         </scene>
         <!--Edit-->
         <scene sceneID="7z6-jq-c4w">
@@ -380,7 +417,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B9U-7Q-06X" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1133.5999999999999" y="133.5832083958021"/>
+            <point key="canvasLocation" x="1201" y="522"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="7gN-jF-GdC">

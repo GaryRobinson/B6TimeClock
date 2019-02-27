@@ -31,14 +31,14 @@ extension Date {
             absDuration *= -1
             result += "-"
         }
-        let seconds = Int(absDuration) % 60
+        let seconds = Int(absDuration + 0.5) % 60
         let secondsString = String(format: "%02d", seconds)
-        let minutes = (Int(absDuration) / 60) % 60
+        let minutes = (Int(absDuration + 0.5) / 60) % 60
         let minutesString = String(format: "%02d", minutes)
         if noHours {
             result += "\(minutesString):\(secondsString)"
         } else {
-            let hours = Int(absDuration) / (60 * 60)
+            let hours = Int(absDuration + 0.5) / (60 * 60)
             let hoursString = String(format: "%02d", hours)
             result += "\(hoursString):\(minutesString):\(secondsString)"
         }
