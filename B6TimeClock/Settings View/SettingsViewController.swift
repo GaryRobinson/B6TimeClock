@@ -43,10 +43,6 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 
     // MARK: - Actions
 
-    @IBAction func cancelTapped(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
-
     @IBAction func doneTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }

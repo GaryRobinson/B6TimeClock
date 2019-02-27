@@ -48,6 +48,12 @@ class WeekViewController: UIViewController, UITableViewDataSource, UITableViewDe
         NotificationCenter.default.removeObserver(self)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateSummaryTimes()
+        updateEntries()
+    }
+
     // MARK: - Table View
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -157,9 +163,38 @@ class WeekViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     func updateSummaryTimes() {
         let summary = TimeEntryController.shared.getWeekSummary()
-        weekTotalShiftLabel.text = Date.formattedDuration(summary.shiftTotal)
-        weekTotalBreakLabel.text = Date.formattedDuration(summary.breakTotal)
-        weekTotalAfterCallLabel.text = Date.formattedDuration(summary.afterTotal)
+        weekTotalShiftLabel.text = Date.formattedDuration(summary.shift)
+        weekTotalBreakLabel.text = Date.formattedDuration(summary.breakRemaining)
+        weekTotalAfterCallLabel.text = Date.formattedDuration(summary.afterCallRemaining)
+
+        if summary.breakRemaining <= SettingType.BreakAlarm.getValue(),
+            summary.breakRemaining + 1 > SettingType.BreakAlarm.getValue() {
+            showBreakAlarm()
+        }
+        if summary.afterCallRemaining <= SettingType.AfterCallAlarm.getValue(),
+            summary.afterCallRemaining + 1 > SettingType.AfterCallAlarm.getValue() {
+            showAfterCallAlarm()
+        }
+    }
+
+    func showBreakAlarm() {
+        let alert = UIAlertController(title: "Break Alarm!",
+                                      message: "\(SettingType.BreakAlarm.getValueString()) break remaining",
+                                      preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
+        //TODO: play a sound until they hit the ok button
+    }
+
+    func showAfterCallAlarm() {
+        let alert = UIAlertController(title: "After Call Alarm!",
+                                      message: "\(SettingType.BreakAlarm.getValueString()) after call remaining",
+            preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
+        //TODO: play a sound until they hit the ok button
     }
 
 }

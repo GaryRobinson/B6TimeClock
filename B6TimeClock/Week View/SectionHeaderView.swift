@@ -76,34 +76,18 @@ class SectionHeaderView: UITableViewHeaderFooterView {
 
     func updateTimes() {
         let currentDate = TimeEntryController.shared.selectedDate
+        let summary = TimeEntryController.shared.getDaySummary(date: currentDate)
         switch entryType {
         case .Shift:
-            let worked = TimeEntryController.shared.getDurationWorked(date: currentDate)
-            centerTimeLabel.text = Date.formattedDuration(worked)
+            centerTimeLabel.text = Date.formattedDuration(summary.shift)
         case .Break:
-            let earned = TimeEntryController.shared.getBreakEarned(date: currentDate)
-            leftTimeLabel.text = Date.formattedDuration(earned)
-            let used = TimeEntryController.shared.getBreakUsed(date: currentDate)
-            centerTimeLabel.text = Date.formattedDuration(used)
-            let remaining = earned - used
-            if remaining < 0 {
-                rightTimeLabel.text = "-\(Date.formattedDuration(-1 * remaining))"
-            } else {
-                rightTimeLabel.text = Date.formattedDuration(remaining)
-            }
-            break
+            leftTimeLabel.text = Date.formattedDuration(summary.breakEarned)
+            centerTimeLabel.text = Date.formattedDuration(summary.breakUsed)
+            rightTimeLabel.text = Date.formattedDuration(summary.breakRemaining)
         case .AfterCall:
-            let available = TimeEntryController.shared.getAvailableEarned(date: currentDate)
-            leftTimeLabel.text = Date.formattedDuration(available)
-            let used = TimeEntryController.shared.getAfterCallUsed(date: currentDate)
-            centerTimeLabel.text = Date.formattedDuration(used)
-            let remaining = available - used
-            if remaining < 0 {
-                rightTimeLabel.text = "-\(Date.formattedDuration(-1 * remaining))"
-            } else {
-                rightTimeLabel.text = Date.formattedDuration(remaining)
-            }
-            break
+            leftTimeLabel.text = Date.formattedDuration(summary.afterCallEarned)
+            centerTimeLabel.text = Date.formattedDuration(summary.afterCallUsed)
+            rightTimeLabel.text = Date.formattedDuration(summary.afterCallRemaining)
         }
     }
 

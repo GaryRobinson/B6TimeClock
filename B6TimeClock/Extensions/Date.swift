@@ -25,17 +25,24 @@ extension Date {
     }
 
     public static func formattedDuration(_ duration: TimeInterval, noHours: Bool = false) -> String {
-        let seconds = Int(duration) % 60
+        var result = ""
+        var absDuration = duration
+        if duration < 0 {
+            absDuration *= -1
+            result += "-"
+        }
+        let seconds = Int(absDuration) % 60
         let secondsString = String(format: "%02d", seconds)
-        let minutes = (Int(duration) / 60) % 60
+        let minutes = (Int(absDuration) / 60) % 60
         let minutesString = String(format: "%02d", minutes)
         if noHours {
-            return "\(minutesString):\(secondsString)"
+            result += "\(minutesString):\(secondsString)"
         } else {
-            let hours = Int(duration) / (60 * 60)
+            let hours = Int(absDuration) / (60 * 60)
             let hoursString = String(format: "%02d", hours)
-            return "\(hoursString):\(minutesString):\(secondsString)"
+            result += "\(hoursString):\(minutesString):\(secondsString)"
         }
+        return result
     }
 
     public func durationTo(date: Date) -> String {

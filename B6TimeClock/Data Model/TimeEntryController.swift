@@ -133,7 +133,7 @@ class TimeEntryController: NSObject {
         return duration
     }
 
-    public func getAvailableEarned(date: Date) -> TimeInterval {
+    public func getAfterCallEarned(date: Date) -> TimeInterval {
         let worked = getDurationWorked(date: date)
         let multiplier = SettingType.AfterCallEarnMultiplier.getValue()
         return worked * multiplier
@@ -148,19 +148,33 @@ class TimeEntryController: NSObject {
         return duration
     }
 
-    public func getWeekSummary() -> (shiftTotal: TimeInterval, breakTotal: TimeInterval, afterTotal: TimeInterval) {
-        var shiftResult: TimeInterval = 0
-        var breakResult: TimeInterval = 0
-        var afterResult: TimeInterval = 0
+    public func getDaySummary(date: Date) -> TimeSummary {
+        let result = TimeSummary()
+        result.shift = getDurationWorked(date: date)
+        result.breakEarned = getBreakEarned(date: date)
+        result.breakUsed = getBreakUsed(date: date)
+        result.afterCallEarned = getAfterCallEarned(date: date)
+        result.afterCallUsed = getAfterCallUsed(date: date)
+        result.breakRemaining = result.breakEarned - result.breakUsed
+        result.afterCallRemaining = result.afterCallEarned - result.afterCallUsed
+        return result
+    }
+
+    public func getWeekSummary() -> TimeSummary {
+        let result = TimeSummary()
         let startOfWeek = selectedDate.startOfWeek()
         for day in 0..<7 {
             if let currentDay = Calendar.current.date(byAdding: .day, value: day, to: startOfWeek) {
-                shiftResult += getDurationWorked(date: currentDay)
-                breakResult += getBreakEarned(date: currentDay)
-                afterResult += getAfterCallUsed(date: currentDay)
+                result.shift += getDurationWorked(date: currentDay)
+                result.breakEarned += getBreakEarned(date: currentDay)
+                result.breakUsed += getBreakUsed(date: currentDay)
+                result.afterCallEarned += getAfterCallEarned(date: currentDay)
+                result.afterCallUsed += getAfterCallUsed(date: currentDay)
             }
         }
-        return (shiftTotal: shiftResult, breakTotal: breakResult, afterTotal: afterResult)
+        result.breakRemaining = result.breakEarned - result.breakUsed
+        result.afterCallRemaining = result.afterCallEarned - result.afterCallUsed
+        return result
     }
 
 }

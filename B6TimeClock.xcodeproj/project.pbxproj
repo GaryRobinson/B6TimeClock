@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B28AAC952227404300BBE742 /* TimeSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28AAC942227404300BBE742 /* TimeSummary.swift */; };
 		B2C6E9D1220B387E000531E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6E9D0220B387E000531E6 /* AppDelegate.swift */; };
 		B2C6E9D3220B387E000531E6 /* WeekViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6E9D2220B387E000531E6 /* WeekViewController.swift */; };
 		B2C6E9D6220B387E000531E6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2C6E9D4220B387E000531E6 /* Main.storyboard */; };
@@ -45,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B28AAC942227404300BBE742 /* TimeSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSummary.swift; sourceTree = "<group>"; };
 		B2C6E9CD220B387E000531E6 /* B6TimeClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = B6TimeClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2C6E9D0220B387E000531E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B2C6E9D2220B387E000531E6 /* WeekViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekViewController.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 				B2C6EA04220B82C6000531E6 /* TimeEntryController.swift */,
 				B2C6EA02220B7B03000531E6 /* TimeEntry.swift */,
 				B2C6EA13220E2AA8000531E6 /* TimeEntryType.swift */,
+				B28AAC942227404300BBE742 /* TimeSummary.swift */,
 			);
 			path = "Data Model";
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 			files = (
 				B2C6EA03220B7B03000531E6 /* TimeEntry.swift in Sources */,
 				B2C6E9FF220B5165000531E6 /* SectionHeaderView.swift in Sources */,
+				B28AAC952227404300BBE742 /* TimeSummary.swift in Sources */,
 				B2C6EA12220E2A02000531E6 /* SettingsCell.swift in Sources */,
 				B2C6EA14220E2AA8000531E6 /* TimeEntryType.swift in Sources */,
 				B2C6EA07220B971E000531E6 /* Date.swift in Sources */,
