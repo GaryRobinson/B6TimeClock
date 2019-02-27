@@ -47,7 +47,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         dismiss(animated: true, completion: nil)
     }
 
-    @IBAction func saveTapped(_ sender: Any) {
+    @IBAction func doneTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
 }

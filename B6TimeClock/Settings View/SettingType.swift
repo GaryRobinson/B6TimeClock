@@ -9,24 +9,24 @@
 import Foundation
 
 enum SettingType: String {
-    case BreakNotification
-    case AfterCallNotification
+    case BreakAlarm
+    case AfterCallAlarm
     case BreakEarnMultiplier
     case AfterCallEarnMultiplier
 
     static func getAll() -> [SettingType] {
-        return [.BreakNotification,
-                .AfterCallNotification,
+        return [.BreakAlarm,
+                .AfterCallAlarm,
                 .BreakEarnMultiplier,
                 .AfterCallEarnMultiplier]
     }
 
     func title() -> String {
         switch self {
-        case .BreakNotification:
-            return "Break Notification"
-        case .AfterCallNotification:
-            return "After Call Notification"
+        case .BreakAlarm:
+            return "Break Alarm"
+        case .AfterCallAlarm:
+            return "After Call Alarm"
         case .BreakEarnMultiplier:
             return "Break Earn Multiplier"
         case .AfterCallEarnMultiplier:
@@ -36,9 +36,9 @@ enum SettingType: String {
 
     func defaultValue() -> Double {
         switch self {
-        case .BreakNotification:
+        case .BreakAlarm:
             return 120
-        case .AfterCallNotification:
+        case .AfterCallAlarm:
             return 120
         case .BreakEarnMultiplier:
             return 0.075
@@ -62,7 +62,7 @@ enum SettingType: String {
     func getValueString() -> String {
         let value = getValue()
         switch self {
-        case .BreakNotification, .AfterCallNotification:
+        case .BreakAlarm, .AfterCallAlarm:
             return Date.formattedDuration(value, noHours: true)
         default:
             return String(value)
