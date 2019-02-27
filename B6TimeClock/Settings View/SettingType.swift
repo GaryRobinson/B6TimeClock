@@ -43,7 +43,7 @@ enum SettingType: String {
         case .BreakEarnMultiplier:
             return 0.075
         case .AfterCallEarnMultiplier:
-            return 0.03333
+            return 0.033334
         }
     }
 

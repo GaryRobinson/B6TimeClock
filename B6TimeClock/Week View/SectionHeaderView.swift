@@ -26,9 +26,17 @@ class SectionHeaderView: UITableViewHeaderFooterView {
 
     var entryType = TimeEntryType.Shift
     var isTrackingDuration = false
+    var isToday = false
+    var isFuture = false
 
     func configure(type: TimeEntryType) {
         entryType = type
+
+        isToday = Calendar.current.isDate(Date(), inSameDayAs: TimeEntryController.shared.selectedDate)
+        isFuture = false
+        if Calendar.current.startOfDay(for: TimeEntryController.shared.selectedDate) > Date() {
+            isFuture = true
+        }
 
         sectionTitleLabel.text = entryType.title()
         centerTimeTitle.text = entryType.centerTimeTitle()
@@ -52,13 +60,16 @@ class SectionHeaderView: UITableViewHeaderFooterView {
     }
 
     @IBAction func addButtonTapped(_ sender: Any) {
-        //TODO: ask if you want to make a new entry for sure?
-        isTrackingDuration = !isTrackingDuration
-        updateAddButton()
-        if isTrackingDuration {
-            TimeEntryController.shared.addEntry(type: entryType)
+        if isToday {
+            isTrackingDuration = !isTrackingDuration
+            updateAddButton()
+            if isTrackingDuration {
+                TimeEntryController.shared.addEntry(type: entryType)
+            } else {
+                TimeEntryController.shared.stopEntry(type: entryType)
+            }
         } else {
-            TimeEntryController.shared.stopEntry(type: entryType)
+            TimeEntryController.shared.addOldEntry(date: TimeEntryController.shared.selectedDate, type: entryType)
         }
     }
 
@@ -68,10 +79,12 @@ class SectionHeaderView: UITableViewHeaderFooterView {
         addButton.layer.cornerRadius = 5
 
         addButton.backgroundColor = isTrackingDuration ? .red : green
-        let text = isTrackingDuration ? "Stop" : "Start"
-        addButton.setTitle(text, for: .normal)
-
-        addButton.isHidden = !Calendar.current.isDate(Date(), inSameDayAs: TimeEntryController.shared.selectedDate)
+        var buttonText = "Add"
+        if isToday {
+            buttonText = isTrackingDuration ? "Stop" : "Start"
+        }
+        addButton.setTitle(buttonText, for: .normal)
+        addButton.isHidden = isFuture
     }
 
     func updateTimes() {

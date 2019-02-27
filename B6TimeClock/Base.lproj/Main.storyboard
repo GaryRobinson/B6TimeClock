@@ -65,7 +65,7 @@
                                         </connections>
                                     </button>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="44U-9E-6qI">
-                                        <rect key="frame" x="8" y="114" width="359" height="29"/>
+                                        <rect key="frame" x="8" y="107" width="359" height="29"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="28" id="bAP-5c-s2D"/>
                                         </constraints>
@@ -159,7 +159,7 @@
                                     <constraint firstItem="e8b-uJ-hrD" firstAttribute="top" secondItem="dIV-o1-wZ8" secondAttribute="bottom" constant="15" id="epI-mJ-9gd"/>
                                     <constraint firstItem="e8b-uJ-hrD" firstAttribute="centerX" secondItem="NlT-FH-qKh" secondAttribute="centerX" id="flz-ee-cxX"/>
                                     <constraint firstAttribute="trailing" secondItem="44U-9E-6qI" secondAttribute="trailing" constant="8" id="g46-ZK-EUo"/>
-                                    <constraint firstAttribute="bottom" secondItem="44U-9E-6qI" secondAttribute="bottom" constant="8" id="gob-et-CsE"/>
+                                    <constraint firstAttribute="bottom" secondItem="44U-9E-6qI" secondAttribute="bottom" constant="15" id="gob-et-CsE"/>
                                     <constraint firstItem="AWj-Cf-t82" firstAttribute="top" secondItem="e8b-uJ-hrD" secondAttribute="bottom" id="iuX-wL-nby"/>
                                     <constraint firstItem="dIV-o1-wZ8" firstAttribute="top" secondItem="NlT-FH-qKh" secondAttribute="top" constant="8" id="jHD-Ab-Jp8"/>
                                     <constraint firstItem="44U-9E-6qI" firstAttribute="leading" secondItem="NlT-FH-qKh" secondAttribute="leading" constant="8" id="jVt-Vj-2rD"/>
@@ -272,6 +272,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="changeWeekButton" destination="70j-xm-ny5" id="emW-Pd-xcH"/>
                         <outlet property="daySegmentedControl" destination="44U-9E-6qI" id="vX9-iJ-o1g"/>
                         <outlet property="tableView" destination="DtH-Dk-D7a" id="elK-f9-WPm"/>
                         <outlet property="weekLabel" destination="dIV-o1-wZ8" id="EbM-9f-N1v"/>

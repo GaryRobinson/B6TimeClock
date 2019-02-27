@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AudioToolbox
 
 let sectionHeaderId = "SectionHeaderView"
 
@@ -14,6 +15,7 @@ class WeekViewController: UIViewController, UITableViewDataSource, UITableViewDe
     TimeEntryDelegate, EditTimeEntryDelegate {
 
     @IBOutlet weak var weekLabel: UILabel!
+    @IBOutlet weak var changeWeekButton: UIButton!
     @IBOutlet weak var daySegmentedControl: UISegmentedControl!
     @IBOutlet weak var weekTotalShiftLabel: UILabel!
     @IBOutlet weak var weekTotalBreakLabel: UILabel!
@@ -32,6 +34,10 @@ class WeekViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.tableFooterView = UIView()
 
         TimeEntryController.shared.delegate = self
+
+        changeWeekButton.layer.borderWidth = 1
+        changeWeekButton.layer.borderColor = UIColor.white.cgColor
+        changeWeekButton.layer.cornerRadius = 5
 
         currentStartOfWeek = TimeEntryController.shared.selectedDate.startOfWeek()
         let startString = currentStartOfWeek.formattedStartOfWeek()
@@ -112,7 +118,6 @@ class WeekViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         TimeEntryController.shared.selectedDate = newDay
         tableView.reloadData()
-        print("selected day \(TimeEntryController.shared.selectedDate.formattedTime())")
     }
 
     @IBAction func settingsTapped(_ sender: Any) {
@@ -135,12 +140,14 @@ class WeekViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     func startEntry(type: TimeEntryType) {
+        updateSummaryTimes()
         if let section = sections.index(of: type) {
             tableView.reloadSections(IndexSet(integer: section), with: .automatic)
         }
     }
 
     func stopEntry(type: TimeEntryType) {
+        updateSummaryTimes()
         if let section = sections.index(of: type) {
             tableView.reloadSections(IndexSet(integer: section), with: .automatic)
         }
@@ -184,7 +191,7 @@ class WeekViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
-        //TODO: play a sound until they hit the ok button
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
 
     func showAfterCallAlarm() {
@@ -194,7 +201,7 @@ class WeekViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
-        //TODO: play a sound until they hit the ok button
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
 
 }

@@ -75,6 +75,16 @@ class TimeEntryController: NSObject {
         delegate?.stopEntry(type: type)
     }
 
+    public func addOldEntry(date: Date, type: TimeEntryType) {
+        let id = nextId
+        nextId += 1
+        let newEntry = TimeEntry.init(id: id, type: type, startTime: date)
+        newEntry.stopTime = date.addingTimeInterval(60)
+        allTimeEntries.append(newEntry)
+        saveAllEntries()
+        delegate?.startEntry(type: type)
+    }
+
     public func deleteEntry(_ entry: TimeEntry) {
         if let index = allTimeEntries.index(of: entry) {
             allTimeEntries.remove(at: index)
