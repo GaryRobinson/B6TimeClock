@@ -13,10 +13,17 @@ let sectionHeaderId = "SectionHeaderView"
 class WeekViewController: UIViewController, UITableViewDataSource, UITableViewDelegate,
     TimeEntryDelegate, EditTimeEntryDelegate {
 
+    @IBOutlet weak var weekLabel: UILabel!
+    @IBOutlet weak var daySegmentedControl: UISegmentedControl!
+    @IBOutlet weak var weekTotalShiftLabel: UILabel!
+    @IBOutlet weak var weekTotalBreakLabel: UILabel!
+    @IBOutlet weak var weekTotalAfterCallLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
 
     var sections: [TimeEntryType] = TimeEntryType.getAll()
     var selectedEntry: TimeEntry?
+    var currentStartOfWeek = Date().startOfWeek()
+    //var selectedDay = Date()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +32,20 @@ class WeekViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.tableFooterView = UIView()
 
         TimeEntryController.shared.delegate = self
+
+        currentStartOfWeek = TimeEntryController.shared.selectedDate.startOfWeek()
+        let startString = currentStartOfWeek.formattedStartOfWeek()
+        let endString = currentStartOfWeek.formattedEndOfWeek()
+        weekLabel.text = "Sun, \(startString) to Sat, \(endString)"
+        daySegmentedControl.selectedSegmentIndex = Calendar.current.component(
+            .weekday, from: TimeEntryController.shared.selectedDate) - 1
+
+        NotificationCenter.default.addObserver(self, selector: #selector(WeekViewController.updateTimer),
+                                               name: TimerNotification, object: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
     // MARK: - Table View
@@ -51,13 +72,13 @@ class WeekViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let type = sections[section]
-        let entries = TimeEntryController.shared.getFor(day: Date(), type: type)
+        let entries = TimeEntryController.shared.getFor(day: TimeEntryController.shared.selectedDate, type: type)
         return entries.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let type = sections[indexPath.section]
-        let entries = TimeEntryController.shared.getFor(day: Date(), type: type)
+        let entries = TimeEntryController.shared.getFor(day: TimeEntryController.shared.selectedDate, type: type)
         let entry = entries[indexPath.row]
         if let cell = tableView.dequeueReusableCell(withIdentifier: "TimeEntryCell", for: indexPath) as? TimeEntryCell {
             cell.configure(timeEntry: entry)
@@ -69,13 +90,24 @@ class WeekViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let type = sections[indexPath.section]
-        let entries = TimeEntryController.shared.getFor(day: Date(), type: type)
+        let entries = TimeEntryController.shared.getFor(day: TimeEntryController.shared.selectedDate, type: type)
         let entry = entries[indexPath.row]
         selectedEntry = entry
         performSegue(withIdentifier: "editTimeEntry", sender: self)
     }
 
     // MARK: - Actions
+
+    @IBAction func dayControlChanged(_ sender: Any) {
+        guard let newDay = Calendar.current.date(byAdding: .day,
+                                                 value: daySegmentedControl.selectedSegmentIndex,
+                                                 to: currentStartOfWeek) else {
+                                                    return
+        }
+        TimeEntryController.shared.selectedDate = newDay
+        tableView.reloadData()
+        print("selected day \(TimeEntryController.shared.selectedDate.formattedTime())")
+    }
 
     @IBAction func settingsTapped(_ sender: Any) {
         let settingsVC = SettingsViewController.initFromStoryboard()
@@ -117,6 +149,17 @@ class WeekViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     func updateEntries() {
         tableView.reloadData()
+    }
+
+    @objc func updateTimer(_ notification: Notification) {
+        updateSummaryTimes()
+    }
+
+    func updateSummaryTimes() {
+        let summary = TimeEntryController.shared.getWeekSummary()
+        weekTotalShiftLabel.text = Date.formattedDuration(summary.shiftTotal)
+        weekTotalBreakLabel.text = Date.formattedDuration(summary.breakTotal)
+        weekTotalAfterCallLabel.text = Date.formattedDuration(summary.afterTotal)
     }
 
 }

@@ -27,6 +27,7 @@ class TimeEntryController: NSObject {
     weak var delegate: TimeEntryDelegate?
     private var timer: Timer?
     private let savedEntriesKey = "SavedTimeEntries"
+    public var selectedDate = Date()
 
     public func loadSavedEntries() {
         if let dictionary = UserDefaults.standard.object(forKey: savedEntriesKey) as? [[String: Any]] {
@@ -51,7 +52,7 @@ class TimeEntryController: NSObject {
     public func addEntry(type: TimeEntryType) {
         let id = nextId
         nextId += 1
-        let newEntry = TimeEntry.init(id: id, type: type)
+        let newEntry = TimeEntry.init(id: id, type: type, startTime: Date())
         allTimeEntries.append(newEntry)
         saveAllEntries()
         delegate?.startEntry(type: type)
@@ -108,43 +109,58 @@ class TimeEntryController: NSObject {
         })
     }
 
-    public func getDurationWorked() -> TimeInterval {
+    public func getDurationWorked(date: Date) -> TimeInterval {
         var duration: TimeInterval = 0
-        let entries = TimeEntryController.shared.getFor(day: Date(), type: .Shift)
+        let entries = TimeEntryController.shared.getFor(day: date, type: .Shift)
         for entry in entries {
             duration += entry.duration()
         }
         return duration
     }
 
-    public func getBreakEarned() -> TimeInterval {
-        let worked = getDurationWorked()
+    public func getBreakEarned(date: Date) -> TimeInterval {
+        let worked = getDurationWorked(date: date)
         let multiplier = SettingType.BreakEarnMultiplier.getValue()
         return worked * multiplier
     }
 
-    public func getBreakUsed() -> TimeInterval {
+    public func getBreakUsed(date: Date) -> TimeInterval {
         var duration: TimeInterval = 0
-        let entries = TimeEntryController.shared.getFor(day: Date(), type: .Break)
+        let entries = TimeEntryController.shared.getFor(day: date, type: .Break)
         for entry in entries {
             duration += entry.duration()
         }
         return duration
     }
 
-    public func getAvailableEarned() -> TimeInterval {
-        let worked = getDurationWorked()
+    public func getAvailableEarned(date: Date) -> TimeInterval {
+        let worked = getDurationWorked(date: date)
         let multiplier = SettingType.AfterCallEarnMultiplier.getValue()
         return worked * multiplier
     }
 
-    public func getAfterCallUsed() -> TimeInterval {
+    public func getAfterCallUsed(date: Date) -> TimeInterval {
         var duration: TimeInterval = 0
-        let entries = TimeEntryController.shared.getFor(day: Date(), type: .AfterCall)
+        let entries = TimeEntryController.shared.getFor(day: date, type: .AfterCall)
         for entry in entries {
             duration += entry.duration()
         }
         return duration
+    }
+
+    public func getWeekSummary() -> (shiftTotal: TimeInterval, breakTotal: TimeInterval, afterTotal: TimeInterval) {
+        var shiftResult: TimeInterval = 0
+        var breakResult: TimeInterval = 0
+        var afterResult: TimeInterval = 0
+        let startOfWeek = selectedDate.startOfWeek()
+        for day in 0..<7 {
+            if let currentDay = Calendar.current.date(byAdding: .day, value: day, to: startOfWeek) {
+                shiftResult += getDurationWorked(date: currentDay)
+                breakResult += getBreakEarned(date: currentDay)
+                afterResult += getAfterCallUsed(date: currentDay)
+            }
+        }
+        return (shiftTotal: shiftResult, breakTotal: breakResult, afterTotal: afterResult)
     }
 
 }

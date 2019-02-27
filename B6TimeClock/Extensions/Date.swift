@@ -46,4 +46,34 @@ extension Date {
         }
         return "00:00:00"
     }
+
+    public func startOfWeek() -> Date {
+        let components = Calendar.current.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)
+        if let start = Calendar.current.date(from: components) {
+            return start
+        }
+        return self
+    }
+
+    public func formattedStartOfWeek() -> String {
+        let formatter = Date.localDateFormatter()
+        formatter.dateFormat = "LLL dd"
+        let dateString = formatter.string(from: startOfWeek())
+        return dateString
+    }
+
+    public func endOfWeek() -> Date {
+        let start = startOfWeek()
+        if let end = Calendar.current.date(byAdding: .day, value: 6, to: start) {
+            return end
+        }
+        return self
+    }
+
+    public func formattedEndOfWeek() -> String {
+        let formatter = Date.localDateFormatter()
+        formatter.dateFormat = "LLL dd, yyyy"
+        let dateString = formatter.string(from: endOfWeek())
+        return dateString
+    }
 }

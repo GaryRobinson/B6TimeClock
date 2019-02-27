@@ -70,18 +70,20 @@ class SectionHeaderView: UITableViewHeaderFooterView {
         addButton.backgroundColor = isTrackingDuration ? .red : green
         let text = isTrackingDuration ? "Stop" : "Start"
         addButton.setTitle(text, for: .normal)
+
+        addButton.isHidden = !Calendar.current.isDate(Date(), inSameDayAs: TimeEntryController.shared.selectedDate)
     }
 
     func updateTimes() {
-        //TOOD: add up the total times, based on the time entries
+        let currentDate = TimeEntryController.shared.selectedDate
         switch entryType {
         case .Shift:
-            let worked = TimeEntryController.shared.getDurationWorked()
+            let worked = TimeEntryController.shared.getDurationWorked(date: currentDate)
             centerTimeLabel.text = Date.formattedDuration(worked)
         case .Break:
-            let earned = TimeEntryController.shared.getBreakEarned()
+            let earned = TimeEntryController.shared.getBreakEarned(date: currentDate)
             leftTimeLabel.text = Date.formattedDuration(earned)
-            let used = TimeEntryController.shared.getBreakUsed()
+            let used = TimeEntryController.shared.getBreakUsed(date: currentDate)
             centerTimeLabel.text = Date.formattedDuration(used)
             let remaining = earned - used
             if remaining < 0 {
@@ -91,9 +93,9 @@ class SectionHeaderView: UITableViewHeaderFooterView {
             }
             break
         case .AfterCall:
-            let available = TimeEntryController.shared.getAvailableEarned()
+            let available = TimeEntryController.shared.getAvailableEarned(date: currentDate)
             leftTimeLabel.text = Date.formattedDuration(available)
-            let used = TimeEntryController.shared.getAfterCallUsed()
+            let used = TimeEntryController.shared.getAfterCallUsed(date: currentDate)
             centerTimeLabel.text = Date.formattedDuration(used)
             let remaining = available - used
             if remaining < 0 {

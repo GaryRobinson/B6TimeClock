@@ -23,11 +23,11 @@ class TimeEntry: NSObject {
         super.init()
     }
 
-    public init(id: Int, type: TimeEntryType) {
+    public init(id: Int, type: TimeEntryType, startTime: Date) {
         self.id = id
         self.type = type
-        startTime = Date()
-        stopTime = nil
+        self.startTime = startTime
+        self.stopTime = nil
         super.init()
     }
 
