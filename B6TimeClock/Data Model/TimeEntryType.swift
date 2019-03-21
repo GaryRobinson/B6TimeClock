@@ -20,11 +20,11 @@ enum TimeEntryType: String {
     public func title() -> String {
         switch self {
         case .Shift:
-            return "SHIFT"
+            return "Shift"
         case .Break:
-            return "BREAK"
+            return "Break"
         case .AfterCall:
-            return "AFTER CALL"
+            return "After Call"
         }
     }
 
@@ -55,5 +55,17 @@ enum TimeEntryType: String {
         default:
             return false
         }
+    }
+
+    public func saveShowing(_ showing: Bool) {
+        UserDefaults.standard.set(showing, forKey: self.rawValue)
+        UserDefaults.standard.synchronize()
+    }
+
+    public func isShowing() -> Bool {
+        if let value = UserDefaults.standard.value(forKey: self.rawValue) as? Bool {
+            return value
+        }
+        return true
     }
 }

@@ -83,4 +83,11 @@ extension Date {
         let dateString = formatter.string(from: endOfWeek())
         return dateString
     }
+
+    public func formattedDayOfWeek() -> String {
+        let formatter = Date.localDateFormatter()
+        formatter.dateFormat = "EEEE"
+        let dateString = formatter.string(from: self)
+        return dateString
+    }
 }

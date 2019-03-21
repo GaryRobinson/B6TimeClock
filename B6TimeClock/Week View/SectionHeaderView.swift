@@ -13,6 +13,10 @@ let green = UIColor.init(red: 27.0/255.0,
                          blue: 141.0/255.0,
                          alpha: 1)
 
+protocol SectionHeaderDelegate: class {
+    func showingTypeChanged(_ type: TimeEntryType)
+}
+
 class SectionHeaderView: UITableViewHeaderFooterView {
 
     @IBOutlet weak var sectionTitleLabel: UILabel!
@@ -23,14 +27,17 @@ class SectionHeaderView: UITableViewHeaderFooterView {
     @IBOutlet weak var rightTimeTitle: UILabel!
     @IBOutlet weak var rightTimeLabel: UILabel!
     @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var showButton: UIButton!
 
     var entryType = TimeEntryType.Shift
     var isTrackingDuration = false
     var isToday = false
     var isFuture = false
+    weak var delegate: SectionHeaderDelegate?
 
-    func configure(type: TimeEntryType) {
+    func configure(type: TimeEntryType, delegate: SectionHeaderDelegate) {
         entryType = type
+        self.delegate = delegate
 
         isToday = Calendar.current.isDate(Date(), inSameDayAs: TimeEntryController.shared.selectedDate)
         isFuture = false
@@ -38,7 +45,8 @@ class SectionHeaderView: UITableViewHeaderFooterView {
             isFuture = true
         }
 
-        sectionTitleLabel.text = entryType.title()
+        let dayOfWeek = TimeEntryController.shared.selectedDate.formattedDayOfWeek()
+        sectionTitleLabel.text = "\(dayOfWeek) \(entryType.title())"
         centerTimeTitle.text = entryType.centerTimeTitle()
         leftTimeTitle.text = entryType.leftTimeTitle()
         leftTimeTitle.isHidden = entryType.showCenterTimeOnly()
@@ -48,6 +56,7 @@ class SectionHeaderView: UITableViewHeaderFooterView {
 
         isTrackingDuration = TimeEntryController.shared.isActive(type: type)
 
+        updateShowButton()
         updateAddButton()
         updateTimes()
 
@@ -84,7 +93,29 @@ class SectionHeaderView: UITableViewHeaderFooterView {
             buttonText = isTrackingDuration ? "Stop" : "Start"
         }
         addButton.setTitle(buttonText, for: .normal)
-        addButton.isHidden = isFuture
+//        addButton.isHidden = isFuture
+    }
+
+    func updateShowButton() {
+        showButton.layer.borderWidth = 1
+        showButton.layer.borderColor = UIColor.white.cgColor
+        showButton.layer.cornerRadius = 5
+
+        if entryType.isShowing() {
+            showButton.setTitle("Hide", for: .normal)
+        } else {
+            showButton.setTitle("Show", for: .normal)
+        }
+
+        let entries = TimeEntryController.shared.getFor(day: TimeEntryController.shared.selectedDate, type: entryType)
+        showButton.isHidden = entries.count == 0 ? true : false
+    }
+
+    @IBAction func showButtonTapped(_ sender: Any) {
+        showButton.isSelected = !showButton.isSelected
+        entryType.saveShowing(!entryType.isShowing())
+        updateShowButton()
+        delegate?.showingTypeChanged(entryType)
     }
 
     func updateTimes() {

@@ -12,7 +12,7 @@ import AudioToolbox
 let sectionHeaderId = "SectionHeaderView"
 
 class WeekViewController: UIViewController, UITableViewDataSource, UITableViewDelegate,
-    TimeEntryDelegate, EditTimeEntryDelegate {
+    TimeEntryDelegate, EditTimeEntryDelegate, SectionHeaderDelegate {
 
     @IBOutlet weak var weekLabel: UILabel!
     @IBOutlet weak var changeWeekButton: UIButton!
@@ -75,7 +75,7 @@ class WeekViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let type = sections[section]
         if let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: sectionHeaderId)
             as? SectionHeaderView {
-            headerView.configure(type: type)
+            headerView.configure(type: type, delegate: self)
             return headerView
         }
         return nil
@@ -89,8 +89,11 @@ class WeekViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let type = sections[section]
-        let entries = TimeEntryController.shared.getFor(day: TimeEntryController.shared.selectedDate, type: type)
-        return entries.count
+        if type.isShowing() {
+            let entries = TimeEntryController.shared.getFor(day: TimeEntryController.shared.selectedDate, type: type)
+            return entries.count
+        }
+        return 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -111,6 +114,12 @@ class WeekViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let entry = entries[indexPath.row]
         selectedEntry = entry
         performSegue(withIdentifier: "editTimeEntry", sender: self)
+    }
+
+    func showingTypeChanged(_ type: TimeEntryType) {
+        if let index = sections.index(of: type) {
+            tableView.reloadSections(IndexSet.init(integer: index), with: .automatic)
+        }
     }
 
     // MARK: - Actions
