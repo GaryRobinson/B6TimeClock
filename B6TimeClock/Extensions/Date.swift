@@ -24,6 +24,17 @@ extension Date {
         return dateString
     }
 
+    public static func durationComponents(_ duration: TimeInterval) -> (hours: Int, minutes: Int, seconds: Int) {
+        var sign = 1.0
+        if duration < 0 {
+            sign = -1.0
+        }
+        let seconds = Int(duration + 0.5 * sign) % 60
+        let minutes = (Int(duration + 0.5 * sign) / 60) % 60
+        let hours = Int(duration + 0.5 * sign) / (60 * 60)
+        return (hours: hours, minutes: minutes, seconds: seconds)
+    }
+
     public static func formattedDuration(_ duration: TimeInterval, noHours: Bool = false) -> String {
         var result = ""
         var absDuration = duration

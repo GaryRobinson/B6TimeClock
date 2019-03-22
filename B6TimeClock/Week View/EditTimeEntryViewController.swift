@@ -12,34 +12,40 @@ protocol EditTimeEntryDelegate: class {
     func updateEntries()
 }
 
-class EditTimeEntryViewController: UIViewController/*, UITextFieldDelegate*/ {
+//TODO: make this modal, have a cancel on the left
+
+class EditTimeEntryViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
 
     @IBOutlet weak var startTextField: UITextField!
     @IBOutlet weak var durationTextField: UITextField!
     @IBOutlet weak var deleteButton: UIButton!
 
     weak var delegate: EditTimeEntryDelegate?
-    var entry: TimeEntry?
+    var initialEntry: TimeEntry?
+    var currentEntry = TimeEntry()
     var toolbar = UIToolbar()
 
-    //TODO: make my own picker view that allows seconds
     var startTimePicker = UIDatePicker()
-    var durationTimePicker = UIDatePicker()
+    var durationTimePicker = UIPickerView()
+    var durationHours = 0
+    var durationMinutes = 0
+    var durationSeconds = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        guard let timeEntry = entry, let stopTime = timeEntry.stopTime else {
+        guard let timeEntry = initialEntry, let stopTime = timeEntry.stopTime else {
             print("oops, shouldn't get here")
             return
         }
 
-        initTextFields(entry: timeEntry, stopTime: stopTime)
+        title = "Edit \(timeEntry.type.title())"
 
-        let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self,
-                                         action: #selector(EditTimeEntryViewController.saveTapped))
-        saveButton.tintColor = .white
-        navigationItem.rightBarButtonItem = saveButton
+        currentEntry.type = timeEntry.type
+        currentEntry.startTime = timeEntry.startTime
+        currentEntry.stopTime = timeEntry.stopTime
+
+        initTextFields(entry: timeEntry, stopTime: stopTime)
 
         deleteButton.layer.cornerRadius = 5
     }
@@ -50,10 +56,10 @@ class EditTimeEntryViewController: UIViewController/*, UITextFieldDelegate*/ {
         toolbar.isTranslucent = true
         toolbar.tintColor = .blue
         toolbar.sizeToFit()
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelPicker))
+//        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelPicker))
         let flexButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donePicker))
-        toolbar.setItems([cancelButton, flexButton, doneButton], animated: false)
+        toolbar.setItems([/*cancelButton,*/ flexButton, doneButton], animated: false)
         toolbar.isUserInteractionEnabled = true
 
         startTextField.text = entry.startTime.formattedTime()
@@ -62,33 +68,89 @@ class EditTimeEntryViewController: UIViewController/*, UITextFieldDelegate*/ {
         startTimePicker.date = entry.startTime
         startTextField.inputView = startTimePicker
         startTextField.inputAccessoryView = toolbar
+        startTextField.delegate = self
 
         let duration = stopTime.timeIntervalSince(entry.startTime)
+        let durationComponents = Date.durationComponents(duration)
+        durationHours = durationComponents.hours
+        durationMinutes = durationComponents.minutes
+        durationSeconds = durationComponents.seconds
+
         durationTextField.text = Date.formattedDuration(duration)
-        durationTimePicker = UIDatePicker()
-        durationTimePicker.datePickerMode = .countDownTimer
-        durationTimePicker.countDownDuration = duration
+        durationTimePicker = UIPickerView()
+        durationTimePicker.delegate = self
         durationTextField.inputView = durationTimePicker
         durationTextField.inputAccessoryView = toolbar
+        durationTextField.delegate = self
     }
 
-//    // MARK: Picker View
-//
-//    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-//        return 1
-//    }
-//
-//    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-//        return 1
-//    }
-//
-//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-//        return nil
-//    }
-//
-//    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-//
-//    }
+    // MARK: Picker View
+
+    enum DurationPicker: Int, CaseIterable {
+        case Hours = 0
+        case HoursLabel
+        case Minutes
+        case MinutesLabel
+        case Seconds
+        case SecondsLabel
+    }
+
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return DurationPicker.allCases.count
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        guard let column = DurationPicker(rawValue: component) else { return 0 }
+        switch column {
+        case .HoursLabel, .MinutesLabel, .SecondsLabel:
+            return 1
+        case .Hours:
+            return 24
+        case .Minutes, .Seconds:
+            return 60
+        }
+    }
+
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        guard let column = DurationPicker(rawValue: component) else { return nil }
+        switch column {
+        case .Hours, .Minutes, .Seconds:
+            return "\(row)"
+        case .HoursLabel:
+            return "hrs"
+        case .MinutesLabel:
+            return "mins"
+        case .SecondsLabel:
+            return "secs"
+        }
+    }
+
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        guard let column = DurationPicker(rawValue: component) else { return }
+        switch column {
+        case .Hours:
+            durationHours = row
+        case .Minutes:
+            durationMinutes = row
+        case .Seconds:
+            durationSeconds = row
+        default:
+            break
+        }
+        updateTextFields(endEditing: false)
+    }
+
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == durationTextField {
+            durationTimePicker.selectRow(durationHours, inComponent: DurationPicker.Hours.rawValue, animated: false)
+            durationTimePicker.selectRow(durationMinutes, inComponent: DurationPicker.Minutes.rawValue, animated: false)
+            durationTimePicker.selectRow(durationSeconds, inComponent: DurationPicker.Seconds.rawValue, animated: false)
+        }
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        updateTextFields()
+    }
 
     @objc func cancelPicker(sender: UIBarButtonItem) {
         if startTextField.isEditing {
@@ -103,51 +165,38 @@ class EditTimeEntryViewController: UIViewController/*, UITextFieldDelegate*/ {
         updateTextFields()
     }
 
-    func updateTextFields() {
+    func updateTextFields(endEditing: Bool = true) {
+        var duration: Double = Double(durationHours) * 60.0 * 60.0
+        duration += Double(durationMinutes) * 60.0 + Double(durationSeconds)
+
         if startTextField.isEditing {
-            if let timeEntry = entry {
-                timeEntry.startTime = startTimePicker.date
-                startTextField.text = timeEntry.startTime.formattedTime()
-            }
-            startTextField.endEditing(true)
+            currentEntry.startTime = startTimePicker.date
         }
-        if durationTextField.isEditing {
-            let duration = durationTimePicker.countDownDuration
-            if let timeEntry = entry {
-                timeEntry.stopTime = timeEntry.startTime.addingTimeInterval(duration)
-                durationTextField.text = Date.formattedDuration(duration)
-            }
+        currentEntry.stopTime = currentEntry.startTime.addingTimeInterval(duration)
+
+        startTextField.text = currentEntry.startTime.formattedTime()
+        durationTextField.text = Date.formattedDuration(duration)
+
+        if endEditing {
+            startTextField.endEditing(true)
             durationTextField.endEditing(true)
         }
     }
 
-    // MARK: Text Field - not sure this section is needed
-
-//    func textFieldDidBeginEditing(_ textField: UITextField) {
-//
-//    }
-//
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//
-//    }
-//
-//    func textField(_ textField: UITextField,
-//                   shouldChangeCharactersIn range: NSRange,
-//                   replacementString string: String) -> Bool {
-//
-//        return true
-//    }
-//
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        return true
-//    }
-
     // MARK: Button Actions
 
-    @objc func saveTapped() {
+    @IBAction func cancelTapped(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+
+    @IBAction func saveTapped(_ sender: Any) {
         updateTextFields()
+
+        initialEntry?.startTime = currentEntry.startTime
+        initialEntry?.stopTime = currentEntry.stopTime
+
         TimeEntryController.shared.saveAllEntries()
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
         delegate?.updateEntries()
     }
 
@@ -165,10 +214,10 @@ class EditTimeEntryViewController: UIViewController/*, UITextFieldDelegate*/ {
     }
 
     func doDelete() {
-        if let currentEntry = entry {
-            TimeEntryController.shared.deleteEntry(currentEntry)
+        if let entry = initialEntry {
+            TimeEntryController.shared.deleteEntry(entry)
         }
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
         delegate?.updateEntries()
     }
 }

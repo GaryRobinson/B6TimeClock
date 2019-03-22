@@ -315,8 +315,8 @@
                         <outlet property="weekTotalAfterCallLabel" destination="0BT-bn-leY" id="c5T-2V-cGV"/>
                         <outlet property="weekTotalBreakLabel" destination="AWj-Cf-t82" id="Bnn-nT-Hu4"/>
                         <outlet property="weekTotalShiftLabel" destination="lmx-5g-4oI" id="Nkg-cE-TOz"/>
-                        <segue destination="qfl-Nc-JEn" kind="show" identifier="editTimeEntry" id="6ig-aD-tU5"/>
                         <segue destination="K2c-qj-lhI" kind="show" identifier="changeWeek" id="DBp-8p-lD0"/>
+                        <segue destination="TAV-Wq-Jux" kind="presentation" identifier="editTimeEntry" id="ejQ-vK-Ayr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -444,6 +444,20 @@
                         <viewLayoutGuide key="safeArea" id="F3c-DZ-0WG"/>
                     </view>
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Edit" id="gfs-Ok-u32">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="ltK-Py-D3K">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="cancelTapped:" destination="qfl-Nc-JEn" id="kyU-Mt-9re"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="QsT-S8-hlu">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="saveTapped:" destination="qfl-Nc-JEn" id="5Of-56-XA4"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="deleteButton" destination="cp4-XF-IIa" id="NJe-1M-nNG"/>
@@ -453,7 +467,28 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B9U-7Q-06X" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1201" y="522"/>
+            <point key="canvasLocation" x="1959" y="591"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="MXw-D4-RWe">
+            <objects>
+                <navigationController id="TAV-Wq-Jux" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="gXe-zw-eFS">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.1019607843" green="0.2666666667" blue="0.50980392159999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="qfl-Nc-JEn" kind="relationship" relationship="rootViewController" id="Blm-zB-Cmg"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aI0-cP-Fcv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1204" y="591"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="7gN-jF-GdC">

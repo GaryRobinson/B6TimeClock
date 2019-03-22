@@ -172,8 +172,9 @@ class WeekViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destVC = segue.destination as? EditTimeEntryViewController {
-            destVC.entry = selectedEntry
+        if let destNavC = segue.destination as? UINavigationController,
+            let destVC = destNavC.viewControllers[0] as? EditTimeEntryViewController {
+            destVC.initialEntry = selectedEntry
             destVC.delegate = self
         }
     }
