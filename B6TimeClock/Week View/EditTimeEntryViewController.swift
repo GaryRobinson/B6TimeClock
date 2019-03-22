@@ -12,8 +12,6 @@ protocol EditTimeEntryDelegate: class {
     func updateEntries()
 }
 
-//TODO: make this modal, have a cancel on the left
-
 class EditTimeEntryViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
 
     @IBOutlet weak var startTextField: UITextField!
