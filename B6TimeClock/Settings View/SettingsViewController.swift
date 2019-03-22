@@ -28,12 +28,24 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 
     // MARK: - Table View
 
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "BREAK"
+        } else {
+            return "AFTER CALL"
+        }
+    }
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return SettingType.getAll().count
+        return SettingType.getForSection(section).count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let type = SettingType.getAll()[indexPath.row]
+        let type = SettingType.getForSection(indexPath.section)[indexPath.row]
         if let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell", for: indexPath) as? SettingsCell {
             cell.configure(type: type)
             return cell

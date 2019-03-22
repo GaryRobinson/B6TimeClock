@@ -188,39 +188,46 @@ class WeekViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     func updateSummaryTimes() {
-        let summary = TimeEntryController.shared.getWeekSummary()
-        weekTotalShiftLabel.text = Date.formattedDuration(summary.shift)
-        weekTotalBreakLabel.text = Date.formattedDuration(summary.breakRemaining)
-        weekTotalAfterCallLabel.text = Date.formattedDuration(summary.afterCallRemaining)
+        let weekSummary = TimeEntryController.shared.getWeekSummary()
+        weekTotalShiftLabel.text = Date.formattedDuration(weekSummary.shift)
+        weekTotalBreakLabel.text = Date.formattedDuration(weekSummary.breakRemaining)
+        weekTotalAfterCallLabel.text = Date.formattedDuration(weekSummary.afterCallRemaining)
 
-        if summary.breakRemaining <= SettingType.BreakAlarm.getValue(),
-            summary.breakRemaining + 1 > SettingType.BreakAlarm.getValue() {
-            showBreakAlarm()
-        }
-        if summary.afterCallRemaining <= SettingType.AfterCallAlarm.getValue(),
-            summary.afterCallRemaining + 1 > SettingType.AfterCallAlarm.getValue() {
-            showAfterCallAlarm()
-        }
+        let daySummary = TimeEntryController.shared.getDaySummary(date: TimeEntryController.shared.selectedDate)
+
+        showAlarmIfNecessary(weekSummary: weekSummary, daySummary: daySummary)
     }
 
-    func showBreakAlarm() {
-        let alert = UIAlertController(title: "Break Alarm!",
-                                      message: "\(SettingType.BreakAlarm.getValueString()) break remaining",
-                                      preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alert.addAction(okAction)
-        present(alert, animated: true, completion: nil)
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-    }
+    func showAlarmIfNecessary(weekSummary: TimeSummary, daySummary: TimeSummary) {
+        let alarms: [SettingType] = [.BreakAlarm, .BreakAlarmWeek, .AfterCallAlarm, .AfterCallAlarmWeek]
+        for alarm in alarms {
 
-    func showAfterCallAlarm() {
-        let alert = UIAlertController(title: "After Call Alarm!",
-                                      message: "\(SettingType.BreakAlarm.getValueString()) after call remaining",
-            preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alert.addAction(okAction)
-        present(alert, animated: true, completion: nil)
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+            var remaining: TimeInterval = 0
+            switch alarm {
+            case .BreakAlarm:
+                remaining = daySummary.breakRemaining
+            case .BreakAlarmWeek:
+                remaining = weekSummary.breakRemaining
+            case .AfterCallAlarm:
+                remaining = daySummary.afterCallRemaining
+            case .AfterCallAlarmWeek:
+                remaining = weekSummary.afterCallRemaining
+            default:
+                return
+            }
+
+            if remaining <= alarm.getValue(), remaining + 1 > alarm.getValue() {
+                let alert = UIAlertController(title: "\(alarm.title())!",
+                                              message: "\(alarm.getValueString()) remaining",
+                                              preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                alert.addAction(okAction)
+                present(alert, animated: true, completion: nil)
+                AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+                AudioServicesPlayAlertSound(SystemSoundID(1005))
+                return
+            }
+        }
     }
 
 }

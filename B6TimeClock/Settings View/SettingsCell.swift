@@ -24,15 +24,14 @@ class SettingsCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewDelegat
         settingLabel.text = settingType.title()
         textField.text = settingType.getValueString()
 
-        switch settingType {
-        case .BreakAlarm, .AfterCallAlarm:
+        if settingType.isAlarm() {
             initAlarmPickerView()
             textField.inputView = pickerView
             currentMinutes = Int(settingType.getValue()) / 60
             currentSeconds = Int(settingType.getValue()) % 60
             pickerView.selectRow(currentMinutes, inComponent: 0, animated: true)
             pickerView.selectRow(currentSeconds, inComponent: 1, animated: true)
-        default:
+        } else {
             textField.inputView = nil
             textField.keyboardType = .decimalPad
         }
@@ -95,20 +94,16 @@ class SettingsCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewDelegat
     }
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        switch settingType {
-        case .BreakAlarm, .AfterCallAlarm:
+        if settingType.isAlarm() {
             pickerView.selectRow(currentMinutes, inComponent: 0, animated: true)
             pickerView.selectRow(currentSeconds, inComponent: 1, animated: true)
-        default:
-            break
         }
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        switch settingType {
-        case .BreakAlarm, .AfterCallAlarm:
+        if settingType.isAlarm() {
             settingType.save(value: 60.0 * (Double)(currentMinutes) + (Double)(currentSeconds))
-        default:
+        } else {
             if let text = textField.text, let double = Double(text) {
                 settingType.save(value: double)
             }

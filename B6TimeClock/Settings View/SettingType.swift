@@ -10,27 +10,43 @@ import Foundation
 
 enum SettingType: String {
     case BreakAlarm
-    case AfterCallAlarm
+    case BreakAlarmWeek
     case BreakEarnMultiplier
+    case AfterCallAlarm
+    case AfterCallAlarmWeek
     case AfterCallEarnMultiplier
 
-    static func getAll() -> [SettingType] {
-        return [.BreakAlarm,
-                .AfterCallAlarm,
-                .BreakEarnMultiplier,
-                .AfterCallEarnMultiplier]
+    static func getForSection(_ section: Int) -> [SettingType] {
+        if section == 0 {
+            return [.BreakAlarm, .BreakAlarmWeek, .BreakEarnMultiplier]
+        } else {
+            return [.AfterCallAlarm, .AfterCallAlarmWeek, .AfterCallEarnMultiplier]
+        }
     }
 
     func title() -> String {
         switch self {
         case .BreakAlarm:
-            return "Break Alarm"
-        case .AfterCallAlarm:
-            return "After Call Alarm"
+            return "Daily Break Alarm"
+        case .BreakAlarmWeek:
+            return "Weekly Break Alarm"
         case .BreakEarnMultiplier:
             return "Break Earn Multiplier"
+        case .AfterCallAlarm:
+            return "Daily After Call Alarm"
+        case .AfterCallAlarmWeek:
+            return "Weekly After Call Alarm"
         case .AfterCallEarnMultiplier:
             return "After Call Earn Multiplier"
+        }
+    }
+
+    func isAlarm() -> Bool {
+        switch self {
+        case .BreakAlarm, .BreakAlarmWeek, .AfterCallAlarm, .AfterCallAlarmWeek:
+            return true
+        default:
+            return false
         }
     }
 
@@ -38,10 +54,14 @@ enum SettingType: String {
         switch self {
         case .BreakAlarm:
             return 120
-        case .AfterCallAlarm:
+        case .BreakAlarmWeek:
             return 120
         case .BreakEarnMultiplier:
             return 0.075
+        case .AfterCallAlarm:
+            return 120
+        case .AfterCallAlarmWeek:
+            return 120
         case .AfterCallEarnMultiplier:
             return 0.033334
         }
@@ -62,7 +82,7 @@ enum SettingType: String {
     func getValueString() -> String {
         let value = getValue()
         switch self {
-        case .BreakAlarm, .AfterCallAlarm:
+        case .BreakAlarm, .BreakAlarmWeek, .AfterCallAlarm, .AfterCallAlarmWeek:
             return Date.formattedDuration(value, noHours: true)
         default:
             return String(value)
